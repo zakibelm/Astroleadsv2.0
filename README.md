@@ -1,170 +1,140 @@
-# AstroLeads
 
-> 🚀 Plateforme d'automatisation de prospection B2B propulsée par l'IA
+# 🚀 AstroLeads v2.0 - Enterprise Edition
 
-![AstroLeads](https://img.shields.io/badge/version-1.0.0-gold)
-![React](https://img.shields.io/badge/React-18-blue)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)
-![Vite](https://img.shields.io/badge/Vite-5-purple)
+> **Plateforme d'automatisation de prospection B2B propulsée par l'IA**  
+> *Génération de leads, Emailing intelligent etCRM intégré.*
 
-## ✨ Fonctionnalités
+[![CI/CD](https://github.com/zakibelm/Astroleadsv2.0/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/zakibelm/Astroleadsv2.0/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Docker Image](https://img.shields.io/badge/docker-ready-blue)](https://github.com/zakibelm/Astroleadsv2.0/pkgs/container/astroleads)
+[![Vite](https://img.shields.io/badge/vite-5.0-purple)](https://vitejs.dev/)
+[![React](https://img.shields.io/badge/react-18.2-blue)](https://react.dev/)
 
-- **🎯 Génération de Leads** - Recherche multi-sources (Google Maps, LinkedIn, Instagram, Facebook)
-- **📧 Campagnes Email IA** - Génération automatique de cold emails avec Gemini
-- **🤖 Équipe d'Agents IA** - Agents autonomes pour la prospection
-- **📊 Analytics** - Tableaux de bord et métriques en temps réel
-- **🎨 Interface Premium** - Design "Gold Neon Glass" moderne
-- **🔐 Authentification** - Système de connexion avec routes protégées
-- **💾 Persistence** - Stockage local + Supabase (optionnel)
+---
 
-## 🛠 Technologies
+## ✨ Fonctionnalités Clés
 
-| Frontend | State | Testing | Styling | Backend |
-|----------|-------|---------|---------|---------|
-| React 18 | Zustand | Vitest | Tailwind CSS | Supabase |
-| TypeScript | React Query | Playwright | PostCSS | Gemini AI |
-| Vite | - | Testing Library | - | - |
+### 🎯 Prospections & Leads
+- **Multi-Source** : Recherche intelligente via Google Maps, LinkedIn, et Réseaux sociaux.
+- **Enrichissement IA** : Qualification automatique des prospects par Claude 3.5 Sonnet / Gemini Pro.
+- **Lead Board** : Tableau de bord interactif pour suivre le statut de chaque prospect (Contacté, Réponse, Converti).
 
-## 📦 Installation
+### 📧 Emailing Intelligent
+- **Personnalisation Extrême** : Chaque email est unique, généré par l'IA en fonction du contexte du prospect.
+- **Mode Hybride** : Workflow "Review-before-send" pour valider chaque message.
+- **Délivrabilité Maximale** : Gestion des envois via Resend API (avec Mode Test sécurisé).
+
+### 🛡️ Sécurité & Performance (Enterprise Grade)
+- **Architecture Sécurisée** : Headers HTTP stricts (CSP, HSTS), Pas de secrets exposés (tout via env vars).
+- **Docker Ready** : Image optimisée multi-stage (< 50MB) avec Nginx hardenisé.
+- **Monitoring 360°** :
+  - **Sentry** : Tracking d'erreurs temps réel.
+  - **Analytics** : PostHog / Mixpanel intégrés.
+  - **Perf** : Core Web Vitals monitoring.
+
+---
+
+## 🛠 Stack Technique
+
+| Sayer | Technologies |
+|-------|--------------|
+| **Frontend** | React 18, TypeScript, Tailwind CSS, Vite |
+| **State** | Zustand, React Query |
+| **Testing** | Vitest, Playwright, Testing Library |
+| **Backend** | Supabase (PostgreSQL, Edge Functions, Auth) |
+| **AI Engine** | OpenRouter (Claude 3.5), Google Gemini |
+| **DevOps** | Docker, Nginx, GitHub Actions (CI/CD) |
+
+---
+
+## 🚀 Démarrage Rapide
+
+### Prérequis
+- Node.js 18+
+- Docker (optionnel)
+- Clés API (OpenRouter, Supabase, Resend)
+
+### Installation Locale
 
 ```bash
-# Cloner le repository
-git clone https://github.com/zakibelm/AstroLeads.git
-cd AstroLeads
+# 1. Cloner le projet
+git clone https://github.com/zakibelm/Astroleadsv2.0.git
+cd Astroleadsv2.0
 
-# Installer les dépendances
+# 2. Installer les dépendances
 npm install
 
-# Copier le fichier d'environnement
+# 3. Configurer l'environnement
 cp .env.example .env.local
+# -> Éditez .env.local avec vos clés
 
-# Configurer les variables d'environnement
-# Éditer .env.local avec vos clés API
-```
-
-## ⚙️ Configuration
-
-Créez un fichier `.env.local` avec les variables suivantes :
-
-```env
-# Gemini AI (requis pour les fonctions IA)
-GEMINI_API_KEY=votre_cle_gemini
-
-# Supabase (optionnel - pour la persistence)
-VITE_SUPABASE_URL=https://ueoexgznqqynujndvcve.supabase.co
-VITE_SUPABASE_ANON_KEY=votre_cle_supabase
-```
-
-## 🚀 Démarrage
-
-```bash
-# Développement
+# 4. Lancer le serveur de dev
 npm run dev
-
-# Build production
-npm run build
-
-# Preview production
-npm run preview
 ```
 
-## 🧪 Tests
+### 🐳 Déploiement Docker
+
+Le projet inclut une configuration Docker "Production-Ready".
 
 ```bash
-# Tests unitaires
-npm run test
+# Lancer toute la stack (App + Monitoring si activé)
+docker-compose up -d --build
 
-# Tests avec UI
-npm run test:ui
+# Accéder à l'application
+# http://localhost:3000
+```
+
+---
+
+## 🧪 Tests & Qualité
+
+Nous maintenons un haut standard de qualité via notre pipeline CI/CD.
+
+```bash
+# Tests Unitaires (Vitest)
+npm run test
 
 # Coverage
 npm run test:coverage
 
-# Tests E2E
+# Tests End-to-End (Playwright)
 npm run test:e2e
+
+# Linting & Format
+npm run lint
+npm run typecheck
 ```
+
+---
 
 ## 📁 Structure du Projet
 
 ```
 src/
-├── components/
-│   ├── ui/          # Composants réutilisables (Button, Card, Modal, etc.)
-│   ├── layout/      # Layout (Sidebar, Header)
-│   ├── auth/        # Composants d'authentification
-│   └── features/    # Composants métier
+├── components/      # UI Kit (Boutons, Cards, Inputs...)
+├── services/        # Logique métier & API (Email, AI, DB)
+├── stores/          # Gestion d'état global (Zustand)
 ├── views/           # Pages de l'application
-├── stores/          # State management (Zustand)
-├── hooks/           # Custom React hooks
-├── services/        # Services API (Gemini, Supabase)
-├── utils/           # Utilitaires (formatters, validators)
-├── types/           # Types TypeScript
-├── lib/             # Constantes et configurations
+├── lib/             # Configuration (Axios, Utils, Constants)
+├── hooks/           # Custom React Hooks
 └── tests/           # Configuration des tests
 ```
 
-## 🔒 Authentification
+---
 
-Comptes de démonstration :
+## 🤝 Contribuer
 
-| Email | Mot de passe | Rôle |
-|-------|--------------|------|
-| admin@astroleads.com | demo | Admin |
-| demo@astroleads.com | demo | User |
-
-## 🎨 Design System
-
-Le projet utilise un thème **Gold Neon Glass** avec :
-
-- **Couleurs** : `astro-gold` (#FFD700), `astro-900` (#0a0a0a)
-- **Typographie** : Inter (Google Fonts)
-- **Effets** : Glassmorphism, Neon glow, Animations fluides
-
-### Composants UI
-
-```tsx
-import { Button, Card, Input, Modal, Badge, Toast } from '@/components/ui';
-
-// Button variants
-<Button variant="primary">Action</Button>
-<Button variant="secondary">Secondaire</Button>
-<Button variant="danger">Supprimer</Button>
-
-// Cards
-<Card variant="default" padding="md">Contenu</Card>
-<Card variant="featured">Premium</Card>
-
-// Toast notifications
-const toast = useToast();
-toast.success('Opération réussie!');
-toast.error('Erreur', 'Description de l\'erreur');
-```
-
-## 📝 Scripts Disponibles
-
-| Commande | Description |
-|----------|-------------|
-| `npm run dev` | Serveur de développement |
-| `npm run build` | Build production |
-| `npm run preview` | Preview du build |
-| `npm run lint` | Linting ESLint |
-| `npm run format` | Formatage Prettier |
-| `npm run typecheck` | Vérification TypeScript |
-| `npm run test` | Tests unitaires |
-| `npm run test:coverage` | Couverture de tests |
-
-## 🤝 Contribution
-
-1. Fork le projet
-2. Créer une branche (`git checkout -b feature/ma-feature`)
-3. Commit (`git commit -am 'Ajout de ma feature'`)
-4. Push (`git push origin feature/ma-feature`)
-5. Créer une Pull Request
-
-## 📄 License
-
-MIT License - voir [LICENSE](LICENSE) pour plus de détails.
+Les Pull Requests sont les bienvenues !
+1.  Forkez le projet
+2.  Créez votre branche (`git checkout -b feature/AmazingFeature`)
+3.  Committez vos changements (`git commit -m 'Add some AmazingFeature'`)
+4.  Poussez (`git push origin feature/AmazingFeature`)
+5.  Ouvrez une Pull Request
 
 ---
 
-Développé avec ❤️ par [@zakibelm](https://github.com/zakibelm)
+## 📄 Licence
+
+Distribué sous la licence MIT. Voir `LICENSE` pour plus d'informations.
+
+**Développé avec ❤️ par @zakibelm**
