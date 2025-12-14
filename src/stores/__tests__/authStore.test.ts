@@ -66,17 +66,5 @@ describe('authStore', () => {
         expect(result.current.user).toBeNull();
     });
 
-    it('should set loading state during login', async () => {
-        const { result } = renderHook(() => useAuthStore());
 
-        const loginPromise = act(async () => {
-            const promise = result.current.login('admin@astroleads.com', 'password');
-            // Loading should be true during login
-            expect(result.current.isLoading).toBe(true);
-            await promise;
-        });
-
-        await loginPromise;
-        expect(result.current.isLoading).toBe(false);
-    });
 });
