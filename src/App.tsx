@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { Layout } from '@/components/layout';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
+import PublicLayout from '@/layouts/PublicLayout';
+import { useAuthStore } from '@/stores';
 
 // Lazy load views for code splitting
 const Dashboard = React.lazy(() => import('@/views/Dashboard'));
@@ -15,6 +17,8 @@ const Settings = React.lazy(() => import('@/views/Settings'));
 const Agents = React.lazy(() => import('@/views/Agents'));
 const Templates = React.lazy(() => import('@/views/Templates'));
 const LoginPage = React.lazy(() => import('@/views/LoginPage'));
+const LandingPage = React.lazy(() => import('@/views/LandingPage'));
+const SignupPage = React.lazy(() => import('@/views/SignupPage'));
 
 // Loading fallback
 const PageLoader = () => (
@@ -24,13 +28,23 @@ const PageLoader = () => (
 );
 
 const App: React.FC = () => {
+    const { checkSession } = useAuthStore();
+
+    useEffect(() => {
+        checkSession();
+    }, []);
+
     return (
         <ErrorBoundary>
             <BrowserRouter>
                 <React.Suspense fallback={<PageLoader />}>
                     <Routes>
                         {/* Public Routes */}
-                        <Route path="/login" element={<LoginPage />} />
+                        <Route element={<PublicLayout />}>
+                            <Route path="/" element={<LandingPage />} />
+                            <Route path="/login" element={<LoginPage />} />
+                            <Route path="/signup" element={<SignupPage />} />
+                        </Route>
 
                         {/* Protected Routes with Layout */}
                         <Route
@@ -40,7 +54,7 @@ const App: React.FC = () => {
                                 </ProtectedRoute>
                             }
                         >
-                            <Route path="/" element={<Dashboard />} />
+                            <Route path="/dashboard" element={<Dashboard />} />
                             <Route path="/campaigns" element={<Campaigns />} />
                             <Route path="/campaigns/:id" element={<CampaignDetail />} />
                             <Route path="/templates" element={<Templates />} />

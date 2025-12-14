@@ -1,0 +1,45 @@
+
+> astroleads@1.0.0 test
+> vitest run
+
+
+[7m[1m[36m RUN [39m[22m[27m [36mv1.6.1[39m [90mC:/Users/zakib/Downloads/AstroLeads[39m
+
+ [32mÔ£ô[39m src/utils/__tests__/validators.test.ts [2m ([22m[2m14 tests[22m[2m)[22m[90m 68[2mms[22m[39m
+ [32mÔ£ô[39m src/utils/__tests__/formatters.test.ts [2m ([22m[2m14 tests[22m[2m)[22m[33m 376[2mms[22m[39m
+ [32mÔ£ô[39m src/stores/__tests__/campaignStore.test.ts [2m ([22m[2m5 tests[22m[2m)[22m[90m 253[2mms[22m[39m
+ [32mÔ£ô[39m src/components/ui/__tests__/Button.test.tsx [2m ([22m[2m10 tests[22m[2m)[22m[33m 1531[2mms[22m[39m
+ [33mÔØ»[39m src/stores/__tests__/authStore.test.ts [2m ([22m[2m5 tests[22m [2m|[22m [31m1 failed[39m[2m)[22m[33m 3303[2mms[22m[39m
+[31m   [33mÔØ»[31m src/stores/__tests__/authStore.test.ts[2m > [22mauthStore[2m > [22mshould set loading state during login[39m
+[31m     ÔåÆ expected false to be true // Object.is equality[39m
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ» Failed Tests 1 ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»
+
+ FAIL  src/stores/__tests__/authStore.test.ts > authStore > should set loading state during login
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ÔØ» src/stores/__tests__/authStore.test.ts:75:46
+     73|             const promise = result.current.login('admin@astroleads.comÔÇª
+     74|             // Loading should be true during login
+     75|             expect(result.current.isLoading).toBe(true);
+       |                                              ^
+     76|             await promise;
+     77|         });
+ ÔØ» node_modules/@testing-library/react/dist/act-compat.js:48:24
+ ÔØ» act node_modules/react/cjs/react.development.js:2512:16
+ ÔØ» Proxy.<anonymous> node_modules/@testing-library/react/dist/act-compat.js:47:25
+ ÔØ» src/stores/__tests__/authStore.test.ts:72:30
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[1/1]ÔÄ»
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m4 passed[39m[22m[90m (5)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m47 passed[39m[22m[90m (48)[39m
+[2m   Start at [22m 15:01:47
+[2m   Duration [22m 15.10s[2m (transform 2.64s, setup 5.87s, collect 9.16s, tests 5.53s, environment 20.81s, prepare 12.71s)[22m
+
