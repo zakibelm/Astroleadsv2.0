@@ -29,51 +29,8 @@ interface LeadState {
 }
 
 // Initial mock data
-const INITIAL_LEADS: Lead[] = [
-    {
-        id: 'l-1',
-        firstName: 'Sarah',
-        lastName: 'Connor',
-        email: 'sarah@skynet.com',
-        company: 'Cyberdyne Systems',
-        position: 'Directrice Ops',
-        status: LeadStatusEnum.INTERESTED,
-        score: 88,
-        lastContacted: '2023-10-22',
-    },
-    {
-        id: 'l-2',
-        firstName: 'James',
-        lastName: 'Holden',
-        email: 'jim@rocinante.shipping',
-        company: 'Rocinante Inc',
-        position: 'Capitaine',
-        status: LeadStatusEnum.NEW,
-        score: 45,
-    },
-    {
-        id: 'l-3',
-        firstName: 'Ellen',
-        lastName: 'Ripley',
-        email: 'ripley@weyland.yutani.com',
-        company: 'Weyland-Yutani',
-        position: 'Officier',
-        status: LeadStatusEnum.CONTACTED,
-        score: 62,
-        lastContacted: '2023-10-21',
-    },
-    {
-        id: 'l-4',
-        firstName: 'Jean-Luc',
-        lastName: 'Picard',
-        email: 'picard@starfleet.org',
-        company: 'Fédération',
-        position: 'Capitaine',
-        status: LeadStatusEnum.CONVERTED,
-        score: 99,
-        lastContacted: '2023-10-18',
-    },
-];
+// Initial data (Empty for Production)
+const INITIAL_LEADS: Lead[] = [];
 
 export const useLeadStore = create<LeadState>()(
     persist(
@@ -147,6 +104,7 @@ export const useLeadStore = create<LeadState>()(
             // Computed
             getFilteredLeads: () => {
                 const { leads, filters } = get();
+                const searchLower = filters.search ? filters.search.toLowerCase() : '';
 
                 return leads.filter((lead) => {
                     // Status filter
@@ -155,8 +113,7 @@ export const useLeadStore = create<LeadState>()(
                     }
 
                     // Search filter
-                    if (filters.search) {
-                        const searchLower = filters.search.toLowerCase();
+                    if (searchLower) {
                         const matchesSearch =
                             lead.firstName.toLowerCase().includes(searchLower) ||
                             lead.lastName.toLowerCase().includes(searchLower) ||

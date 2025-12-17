@@ -1,35 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Save, Key, Eye, EyeOff, CheckCircle, AlertCircle, Shield, Mail, TestTube } from 'lucide-react';
 import { Card, Button, Input, useToast } from '@/components/ui';
-
-interface ApiSettings {
-    openRouterKey: string;
-    supabaseUrl: string;
-    supabaseKey: string;
-    testEmail: string;
-    testModeEnabled: boolean;
-}
-
-const STORAGE_KEY = 'astroleads_api_keys';
-
-// Export helper to get settings from localStorage
-export const getStoredSettings = (): ApiSettings => {
-    try {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored) {
-            return JSON.parse(stored);
-        }
-    } catch {
-        console.warn('Failed to parse stored settings');
-    }
-    return {
-        openRouterKey: '',
-        supabaseUrl: '',
-        supabaseKey: '',
-        testEmail: '',
-        testModeEnabled: true,
-    };
-};
+import { ApiSettings, getStoredSettings, STORAGE_KEY } from '@/utils/settings';
 
 const Settings: React.FC = () => {
     const toast = useToast();
@@ -38,6 +10,8 @@ const Settings: React.FC = () => {
         openRouterKey: '',
         supabaseUrl: '',
         supabaseKey: '',
+        hunterApiKey: '',
+        newsApiKey: '',
         testEmail: '',
         testModeEnabled: true,
     });
@@ -74,6 +48,20 @@ const Settings: React.FC = () => {
             prefix: 'sk-or',
             description: 'Pour la génération de leads et emails via IA',
             link: 'https://openrouter.ai/keys',
+        },
+        {
+            id: 'hunterApiKey',
+            label: 'Hunter.io API Key',
+            placeholder: 'Votre clé API Hunter',
+            description: 'Pour la vérification des emails (requis)',
+            link: 'https://hunter.io/api_keys',
+        },
+        {
+            id: 'newsApiKey',
+            label: 'News API Key',
+            placeholder: 'Votre clé API NewsAPI',
+            description: 'Pour le contexte "Actualités" des entreprises',
+            link: 'https://newsapi.org/register',
         },
         {
             id: 'supabaseUrl',

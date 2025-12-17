@@ -1,10 +1,10 @@
 
-import { onCLS, onFID, onFCP, onLCP, onTTFB, Metric } from 'web-vitals';
+import { onCLS, onINP, onFCP, onLCP, onTTFB, Metric } from 'web-vitals';
 
 export function initPerformanceMonitoring() {
     // Core Web Vitals
     onCLS(sendToAnalytics);
-    onFID(sendToAnalytics);
+    onINP(sendToAnalytics);
     onFCP(sendToAnalytics);
     onLCP(sendToAnalytics);
     onTTFB(sendToAnalytics);

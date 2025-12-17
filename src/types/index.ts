@@ -52,7 +52,17 @@ export interface Lead {
     position: string;
     status: LeadStatus;
     score: number;
-    lastContacted?: string;
+    first_contact_at?: string;
+
+    // Verification
+    verification_status?: 'valid' | 'risky' | 'invalid' | 'unknown';
+    verification_score?: number;
+    last_verified_at?: string;
+
+    // Location
+    timezone?: string; // e.g. "Europe/Paris"
+    location_str?: string; // e.g. "Paris, France"
+    ip_address?: string; // e.g. "192.168.1.1"
 }
 
 // Agent Types

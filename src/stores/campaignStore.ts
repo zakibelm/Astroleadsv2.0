@@ -23,48 +23,8 @@ interface CampaignState {
 }
 
 // Initial mock data
-const INITIAL_CAMPAIGNS: Campaign[] = [
-    {
-        id: 'c-1',
-        name: 'Prospection Entreprise Q3',
-        targetAudience: 'CTOs en Fintech',
-        geolocation: 'Amérique du Nord',
-        platforms: ['Email', 'LinkedIn'],
-        productName: 'API AstroCore',
-        serviceDescription: 'API haute performance pour données financières',
-        status: CampaignStatusEnum.ACTIVE,
-        leadsCount: 1200,
-        sentCount: 850,
-        openRate: 45.2,
-        createdAt: '2023-10-01',
-    },
-    {
-        id: 'c-2',
-        name: 'Invitation Accélérateur Startup',
-        targetAudience: 'Fondateurs',
-        geolocation: 'Europe',
-        platforms: ['Email'],
-        productName: 'AstroLaunch',
-        status: CampaignStatusEnum.PAUSED,
-        leadsCount: 500,
-        sentCount: 200,
-        openRate: 68.1,
-        createdAt: '2023-10-15',
-    },
-    {
-        id: 'c-3',
-        name: 'Relance Webinaire SaaS',
-        targetAudience: 'Chefs de Produit',
-        geolocation: 'Global',
-        platforms: ['LinkedIn'],
-        productName: 'AstroView',
-        status: CampaignStatusEnum.DRAFT,
-        leadsCount: 0,
-        sentCount: 0,
-        openRate: 0,
-        createdAt: '2023-10-20',
-    },
-];
+// Initial data (Empty for Production)
+const INITIAL_CAMPAIGNS: Campaign[] = [];
 
 export const useCampaignStore = create<CampaignState>()(
     persist(

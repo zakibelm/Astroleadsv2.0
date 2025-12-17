@@ -68,6 +68,12 @@ export async function executeWorkflow(
         console.log('🔍 [Workflow] Step 1: Generating leads...');
         onProgress('generating_leads', '🔍 Génération des leads en cours...');
 
+        // Determine primary agent based on platform
+        const primaryPlatform = context.platforms?.[0] || 'LinkedIn';
+        const agentName = primaryPlatform.toLowerCase().includes('linkedin')
+            ? 'Éclaireur LinkedIn'
+            : `Éclaireur ${primaryPlatform}`;
+
         addActivity({
             campaignId: context.campaignId,
             campaignName: context.campaignName,
@@ -75,7 +81,7 @@ export async function executeWorkflow(
             title: '🚀 Démarrage de la génération de leads',
             description: `Critères: ${context.targetAudience}\nNombre demandé: ${context.numberOfLeads}\n\n⏳ Appel à l'IA en cours...`,
             status: 'running',
-            agentName: 'Éclaireur LinkedIn',
+            agentName: agentName,
         });
 
         console.log('🔍 [Workflow] Calling generateLeads API...');
@@ -104,7 +110,7 @@ export async function executeWorkflow(
                 title: `🔍 Lead trouvé: ${lead.firstName} ${lead.lastName}`,
                 description: `📍 ${lead.company} | 💼 ${lead.position}\n📧 ${lead.email}\n🎯 Score: ${lead.score}/100\n\n💡 ${lead.reasoning}`,
                 status: 'completed',
-                agentName: 'Éclaireur LinkedIn',
+                agentName: agentName,
             });
 
             // Allow user to approve/skip lead

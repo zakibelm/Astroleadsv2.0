@@ -10,7 +10,7 @@ import { useAuthStore } from '@/stores';
 const Dashboard = React.lazy(() => import('@/views/Dashboard'));
 const Campaigns = React.lazy(() => import('@/views/Campaigns'));
 const CampaignDetail = React.lazy(() => import('@/views/CampaignDetail'));
-const Leads = React.lazy(() => import('@/views/LeadsBoard'));
+const Leads = React.lazy(() => import('@/views/Leads'));
 const Analytics = React.lazy(() => import('@/views/Analytics'));
 const AiStudio = React.lazy(() => import('@/views/AiStudio'));
 const Settings = React.lazy(() => import('@/views/Settings'));

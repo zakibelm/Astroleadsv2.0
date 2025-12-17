@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
-import { Card, Button, Input, useToast } from '@/components/ui';
-import { Mail, Phone, Calendar, CheckCircle, XCircle, RefreshCw, MessageSquare } from 'lucide-react';
+import { Card, Button, useToast } from '@/components/ui';
+import { Mail, CheckCircle, RefreshCw, MessageSquare } from 'lucide-react';
 import { getSupabaseUrl, getSupabaseKey } from '@/lib/apiKeys';
 
 const supabase = createClient(getSupabaseUrl(), getSupabaseKey());
@@ -69,7 +69,7 @@ const LeadsBoard: React.FC = () => {
         }
     };
 
-    const handleAction = async (leadId: string, action: string) => {
+    const handleAction = async (_leadId: string, action: string) => {
         toast.info(`Action ${action} lancée pour le lead...`);
         // Placeholder for actual logic
     };
@@ -81,7 +81,7 @@ const LeadsBoard: React.FC = () => {
                     <h1 className="text-2xl font-bold text-white">📋 Suivi des Leads</h1>
                     <p className="text-neutral-400">Gérez vos contacts et vos relances</p>
                 </div>
-                <Button onClick={fetchLeads} leftIcon={<RefreshCw size={16} />} variant="outline">
+                <Button onClick={fetchLeads} leftIcon={<RefreshCw size={16} />} variant="secondary">
                     Actualiser
                 </Button>
             </div>

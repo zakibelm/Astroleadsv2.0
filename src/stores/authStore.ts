@@ -21,6 +21,36 @@ export const useAuthStore = create<AuthState>((set) => ({
 
     login: async (email, password) => {
         set({ isLoading: true });
+
+        const cleanEmail = email.trim();
+        const cleanPassword = password.trim();
+
+        // Hardcoded Admin Access for 'production test'
+        if (cleanEmail === 'zakibelm66@gmail.com' && cleanPassword === 'Zaki@1204') {
+            const adminUser: User = {
+                id: 'admin-zaki',
+                email: 'zakibelm66@gmail.com',
+                name: 'Zaki Belm',
+                role: 'admin',
+                createdAt: new Date().toISOString(),
+            };
+            set({ user: adminUser, isAuthenticated: true, isLoading: false });
+            return true;
+        }
+
+        // Demo fallback
+        if (email === 'admin@astroleads.com' && password === 'demo') {
+            const demoUser: User = {
+                id: 'demo-admin',
+                email: 'admin@astroleads.com',
+                name: 'Demo Admin',
+                role: 'admin',
+                createdAt: new Date().toISOString(),
+            };
+            set({ user: demoUser, isAuthenticated: true, isLoading: false });
+            return true;
+        }
+
         try {
             const { data, error } = await supabase.auth.signInWithPassword({
                 email,
@@ -35,7 +65,7 @@ export const useAuthStore = create<AuthState>((set) => ({
                     id: data.user.id,
                     email: data.user.email!,
                     name: data.user.user_metadata.full_name || 'User',
-                    role: 'user', // Default role
+                    role: data.user.user_metadata.role || 'user',
                     createdAt: data.user.created_at,
                 };
                 set({ user, isAuthenticated: true, isLoading: false });
@@ -70,7 +100,7 @@ export const useAuthStore = create<AuthState>((set) => ({
                     id: data.user.id,
                     email: data.user.email!,
                     name: meta.full_name,
-                    role: 'user',
+                    role: 'user', // Default for now
                     createdAt: data.user.created_at,
                 };
                 // Note: Supabase might require email confirmation by default. 
@@ -94,14 +124,19 @@ export const useAuthStore = create<AuthState>((set) => ({
 
     checkSession: async () => {
         set({ isLoading: true });
+        // No auto-login for production test
+        set({ user: null, isAuthenticated: false, isLoading: false });
+
+        /* 
+        // Original Logic (Restored partially)
         try {
             const { data: { session } } = await supabase.auth.getSession();
             if (session?.user) {
-                const user: User = {
+                  const user: User = {
                     id: session.user.id,
                     email: session.user.email!,
                     name: session.user.user_metadata.full_name || 'User',
-                    role: 'user',
+                    role: session.user.user_metadata.role || 'user',
                     createdAt: session.user.created_at,
                 };
                 set({ user, isAuthenticated: true });
@@ -114,5 +149,6 @@ export const useAuthStore = create<AuthState>((set) => ({
         } finally {
             set({ isLoading: false });
         }
+        */
     }
 }));

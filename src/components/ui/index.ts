@@ -17,3 +17,10 @@ export type { ModalProps, ModalBodyProps, ModalFooterProps } from './Modal';
 export { ToastContainer, useToast } from './Toast';
 
 export { Skeleton, SkeletonCard, SkeletonTable, SkeletonStats } from './Skeleton';
+
+export { VerificationBadge } from './VerificationBadge';
+
+export { CompanyLogo } from './CompanyLogo';
+
+export { NewsFeed } from './NewsFeed';
+export { LocalTimeBadge } from './LocalTimeBadge';

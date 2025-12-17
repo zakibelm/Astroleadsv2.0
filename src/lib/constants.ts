@@ -41,7 +41,7 @@ export const CHART_COLORS = {
 };
 
 // Platform options
-export const PLATFORMS = ['LinkedIn', 'Email', 'Twitter', 'Instagram', 'Facebook'] as const;
+export const PLATFORMS = ['LinkedIn', 'Email', 'X', 'Instagram', 'Facebook', 'TikTok'] as const;
 
 // Status colors mapping
 export const STATUS_COLORS = {

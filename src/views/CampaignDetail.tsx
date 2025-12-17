@@ -233,7 +233,7 @@ const CampaignDetail: React.FC = () => {
                             variant="primary"
                             onClick={handleStartWorkflow}
                             leftIcon={<Rocket size={16} />}
-                            className="bg-gradient-to-r from-astro-gold to-yellow-500"
+                            className="bg-gradient-to-r from-astro-gold to-yellow-500 text-black font-bold shadow-lg hover:brightness-110 border-none"
                         >
                             Lancer le Workflow Réel
                         </Button>
