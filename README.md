@@ -4,7 +4,9 @@
 > **Plateforme d'automatisation de prospection B2B propulsée par l'IA**  
 > *Génération de leads, Emailing intelligent etCRM intégré.*
 
-[![CI/CD](https://github.com/zakibelm/Astroleadsv2.0/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/zakibelm/Astroleadsv2.0/actions)
+[![CI](https://github.com/zakibelm/Astroleadsv2.0/actions/workflows/ci.yml/badge.svg)](https://github.com/zakibelm/Astroleadsv2.0/actions/workflows/ci.yml)
+[![Security](https://github.com/zakibelm/Astroleadsv2.0/actions/workflows/security.yml/badge.svg)](https://github.com/zakibelm/Astroleadsv2.0/actions/workflows/security.yml)
+[![codecov](https://codecov.io/gh/zakibelm/Astroleadsv2.0/branch/main/graph/badge.svg)](https://codecov.io/gh/zakibelm/Astroleadsv2.0)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Docker Image](https://img.shields.io/badge/docker-ready-blue)](https://github.com/zakibelm/Astroleadsv2.0/pkgs/container/astroleads)
 [![Vite](https://img.shields.io/badge/vite-5.0-purple)](https://vitejs.dev/)
