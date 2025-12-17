@@ -8,7 +8,7 @@ import { initPostHog, initMixpanel } from '@/lib/analytics';
 import { initPerformanceMonitoring } from '@/lib/performance';
 
 // Initialize Monitoring & Observability
-initSentry();
+// initSentry(); // Temporarily disabled - Sentry.Replay import issue
 initPostHog();
 initMixpanel();
 initPerformanceMonitoring();
