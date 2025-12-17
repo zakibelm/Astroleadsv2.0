@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/lib/supabaseClient';
 import { getStoredSettings } from '@/utils/settings';
 
 export interface VerificationResult {
