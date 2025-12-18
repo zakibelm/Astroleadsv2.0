@@ -1,9 +1,13 @@
 
 import { createClient } from '@supabase/supabase-js';
-import { getSupabaseUrl, getSupabaseKey } from './apiKeys';
 
-// Fallback to dummy values to prevent app crash if keys aren't set yet
-const supabaseUrl = getSupabaseUrl() || 'https://placeholder.supabase.co';
-const supabaseKey = getSupabaseKey() || 'placeholder-key';
+// Supabase configuration from environment variables
+// These are set in Vercel dashboard and .env.local for development
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+
+if (!supabaseUrl || !supabaseKey) {
+    console.error('❌ Supabase credentials not found in environment variables!');
+}
 
 export const supabase = createClient(supabaseUrl, supabaseKey);
