@@ -56,10 +56,7 @@ export const useAgentStore = create<AgentState>((set, get) => ({
         try {
             const { data, error } = await supabase
                 .from('agents')
-                .select(`
-                    *,
-                    rag_files:agent_rag_files(*)
-                `)
+                .select('*')
                 .order('created_at', { ascending: true });
 
             if (error) throw error;
@@ -73,22 +70,14 @@ export const useAgentStore = create<AgentState>((set, get) => ({
                 model: a.model,
                 systemPrompt: a.system_prompt, // DB column snake_case
                 status: a.status,
-                currentTask: 'En attente...', // Fallback or assume implied
+                currentTask: a.current_task || 'En attente...',
                 performance: a.performance,
                 capabilities: a.capabilities || [],
                 createdAt: a.created_at,
                 updatedAt: a.updated_at,
-                ragFiles: (a.rag_files || []).map((f: any) => ({
-                    id: f.id,
-                    name: f.name,
-                    type: f.type,
-                    size: f.size,
-                    uploadedAt: f.created_at,
-                    content: f.content
-                }))
+                ragFiles: [] // Empty for now until FK is fixed
             }));
 
-            // If empty, consider seeding here, but migration should have seeded.
             set({ agents: mappedAgents });
         } catch (err: any) {
             console.error('Error fetching agents:', err);
