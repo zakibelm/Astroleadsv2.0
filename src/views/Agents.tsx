@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
     Brain,
     Zap,
@@ -273,8 +273,13 @@ const AgentCard: React.FC<AgentCardProps> = ({ agent, isExpanded, onToggle }) =>
 };
 
 const Agents: React.FC = () => {
-    const { agents } = useAgentStore();
+    const { agents, fetchAgents } = useAgentStore();
     const [expandedAgentId, setExpandedAgentId] = useState<string | null>(null);
+
+    // Fetch agents from Supabase on component mount
+    useEffect(() => {
+        fetchAgents();
+    }, [fetchAgents]);
 
     const toggleAgent = (agentId: string) => {
         setExpandedAgentId(prev => prev === agentId ? null : agentId);
