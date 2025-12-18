@@ -121,8 +121,8 @@ const Templates: React.FC = () => {
                         key={cat}
                         onClick={() => setSelectedCategory(cat)}
                         className={`px-4 py-2 rounded-full text-sm transition-all ${selectedCategory === cat
-                                ? 'bg-astro-gold text-black font-bold'
-                                : 'bg-astro-800 text-neutral-400 hover:text-white border border-astro-700'
+                            ? 'bg-astro-gold text-black font-bold'
+                            : 'bg-astro-800 text-neutral-400 hover:text-white border border-astro-700'
                             }`}
                     >
                         {cat}
@@ -176,6 +176,7 @@ const Templates: React.FC = () => {
                             variant="secondary"
                             className="w-full group-hover:bg-astro-gold/10 group-hover:border-astro-gold group-hover:text-astro-gold"
                             rightIcon={<ArrowRight size={16} />}
+                            onClick={() => navigate('/campaigns')}
                         >
                             Utiliser ce modèle
                         </Button>
