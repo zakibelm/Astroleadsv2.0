@@ -3,11 +3,14 @@
  * Single API key for all AI models (Claude, GPT-4, Gemini, Llama, etc.)
  */
 
+import { getStoredSettings } from '@/utils/settings';
+
 const OPENROUTER_API_URL = 'https://openrouter.ai/api/v1/chat/completions';
 
-// Get API key from environment
+// Get API key from user settings
 const getApiKey = (): string => {
-    return import.meta.env.VITE_OPENROUTER_API_KEY || '';
+    const settings = getStoredSettings();
+    return settings.openRouterKey || import.meta.env.VITE_OPENROUTER_API_KEY || '';
 };
 
 export interface OpenRouterMessage {
@@ -55,7 +58,7 @@ export const callOpenRouter = async (
     const apiKey = getApiKey();
 
     if (!apiKey) {
-        throw new Error('Clé API OpenRouter non configurée. Ajoutez VITE_OPENROUTER_API_KEY dans .env.local');
+        throw new Error('Clé API OpenRouter non configurée. Ajoutez-la dans Paramètres → OpenRouter API Key');
     }
 
     const response = await fetch(OPENROUTER_API_URL, {
