@@ -176,7 +176,7 @@ const Templates: React.FC = () => {
                             variant="secondary"
                             className="w-full group-hover:bg-astro-gold/10 group-hover:border-astro-gold group-hover:text-astro-gold"
                             rightIcon={<ArrowRight size={16} />}
-                            onClick={() => navigate('/campaigns')}
+                            onClick={() => navigate(`/campaigns?template=${template.id}`)}
                         >
                             Utiliser ce modèle
                         </Button>
