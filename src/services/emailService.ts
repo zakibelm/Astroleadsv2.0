@@ -80,10 +80,21 @@ export async function sendEmail(payload: EmailPayload): Promise<SendEmailResult>
         console.log('✅ [Email] Successfully sent, ID:', data.id);
         return { success: true, id: data.id };
     } catch (error) {
-        console.error('❌ [Email] Error:', error);
+        const errorMsg = error instanceof Error ? error.message : 'Unknown error';
+        console.error('❌ [Email] Error:', errorMsg);
+
+        // Provide helpful guidance based on error type
+        if (errorMsg.includes('fetch') || errorMsg.includes('Failed to fetch')) {
+            console.error('💡 [Email] Possible causes:');
+            console.error('   1. RESEND_API_KEY not configured in Supabase Edge Functions');
+            console.error('   2. Edge Function not deployed or not accessible');
+            console.error('   3. Network connectivity issue');
+            console.error('   See RESEND_SETUP.md for configuration instructions');
+        }
+
         return {
             success: false,
-            error: error instanceof Error ? error.message : 'Unknown error'
+            error: errorMsg
         };
     }
 }
