@@ -33,8 +33,47 @@ export interface Campaign {
     companyName?: string;     // Ex: "Mon Entreprise SAS"
     leadTarget?: number;      // Target number of leads
     // Campaign type and sources
-    campaignType?: 'b2b' | 'b2c' | 'hybrid';  // Type of campaign
-    preferredSources?: string[];  // Preferred lead sources (LinkedIn, Instagram, etc.)
+    campaignType?: 'b2b' | 'b2c' | 'hybrid';
+    preferredSources?: string[];
+
+    // B2B Qualification Criteria
+    b2bCriteria?: {
+        companySize?: string[];        // ['TPE', 'PME', 'ETI', 'GE']
+        sectors?: string[];            // ['Tech', 'Finance', 'Healthcare', etc.]
+        targetPositions?: string[];    // ['CEO', 'CTO', 'VP Sales', etc.]
+        minSeniority?: string;         // 'C-Level' | 'VP' | 'Director' | 'Manager'
+        minRevenue?: string;           // '<1M' | '1-10M' | '10-100M' | '>100M'
+    };
+
+    // B2C Qualification Criteria
+    b2cCriteria?: {
+        minFollowers?: number;         // 1000, 10000, 50000, etc.
+        minEngagement?: number;        // 1, 2, 5, 10 (%)
+        requireVerified?: boolean;
+        categories?: string[];         // ['Beauty', 'Fashion', 'Tech', etc.]
+        targetAge?: string[];          // ['18-24', '25-34', '35-44', '45+']
+        languages?: string[];          // ['French', 'English', etc.]
+    };
+
+    // Exclusion Criteria
+    exclusionCriteria?: {
+        excludePersonalEmails?: boolean;   // Exclude @gmail, @yahoo for B2B
+        excludeKeywords?: string[];        // Words to avoid in bio/company
+        excludeContacted?: boolean;        // Exclude leads from other campaigns
+    };
+
+    // Budget & Volume
+    budget?: {
+        maxCredits?: number;           // Max API credits to spend
+        targetLeadCount?: number;      // Desired number of qualified leads
+        urgency?: 'immediate' | 'week' | 'month';
+    };
+
+    // Scoring Priorities
+    scoringPriorities?: {
+        topPriority?: string;          // Most important criterion
+        minScore?: number;             // Minimum acceptable score (70-90)
+    };
 }
 
 // Lead Types
