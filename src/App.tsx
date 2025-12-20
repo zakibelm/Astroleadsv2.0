@@ -19,6 +19,7 @@ const Templates = React.lazy(() => import('@/views/Templates'));
 const LoginPage = React.lazy(() => import('@/views/LoginPage'));
 const LandingPage = React.lazy(() => import('@/views/LandingPage'));
 const SignupPage = React.lazy(() => import('@/views/SignupPage'));
+const MetricsPage = React.lazy(() => import('@/views/MetricsPage'));
 
 // Loading fallback
 const PageLoader = () => (
@@ -44,6 +45,7 @@ const App: React.FC = () => {
                             <Route path="/" element={<LandingPage />} />
                             <Route path="/login" element={<LoginPage />} />
                             <Route path="/signup" element={<SignupPage />} />
+                            <Route path="/metrics" element={<MetricsPage />} />
                         </Route>
 
                         {/* Protected Routes with Layout */}
