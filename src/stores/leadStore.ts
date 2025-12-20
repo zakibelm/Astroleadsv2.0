@@ -19,6 +19,11 @@ interface LeadState {
     addLead: (lead: Omit<Lead, 'id'>) => Promise<Lead>;
     updateLead: (id: string, updates: Partial<Lead>) => Promise<void>;
     deleteLead: (id: string) => Promise<void>;
+    bulkImportLeads: (
+        campaignId: string,
+        leads: Array<Partial<Omit<Lead, 'id' | 'campaignId'>>>,
+        options?: { skipDuplicates?: boolean }
+    ) => Promise<{ inserted: number; skipped: number; errors: number }>;
     setLeads: (leads: Lead[]) => void;
     selectLead: (lead: Lead | null) => void;
     updateStatus: (id: string, status: LeadStatus) => Promise<void>;
@@ -102,6 +107,68 @@ export const useLeadStore = create<LeadState>()(
                     }));
                 } catch (error) {
                     console.error('Failed to delete lead:', error);
+                    set({ isLoading: false });
+                    throw error;
+                }
+            },
+
+            bulkImportLeads: async (campaignId, leadsData, options = {}) => {
+                const { skipDuplicates = true } = options;
+                const results = { inserted: 0, skipped: 0, errors: 0 };
+
+                set({ isLoading: true });
+
+                try {
+                    const existingLeads = get().leads;
+                    const existingEmails = new Set(existingLeads.map(l => l.email.toLowerCase()));
+                    const newLeads: Lead[] = [];
+
+                    for (const leadData of leadsData) {
+                        try {
+                            // Skip if no email
+                            if (!leadData.email) {
+                                results.skipped++;
+                                continue;
+                            }
+
+                            // Check duplicates
+                            if (skipDuplicates && existingEmails.has(leadData.email.toLowerCase())) {
+                                results.skipped++;
+                                continue;
+                            }
+
+                            // Add lead
+                            const fullLeadData = {
+                                ...leadData,
+                                campaign_id: campaignId,
+                                status: leadData.status || ('new' as LeadStatus),
+                                score: leadData.score || 0,
+                                firstName: leadData.firstName || '',
+                                lastName: leadData.lastName || '',
+                                company: leadData.company || '',
+                                position: leadData.position || '',
+                                email: leadData.email,
+                            };
+
+                            const newLead = await addLeadToDB(fullLeadData as Omit<Lead, 'id'>);
+                            newLeads.push(newLead);
+                            existingEmails.add(leadData.email.toLowerCase());
+                            results.inserted++;
+                        } catch (error) {
+                            console.error('Failed to import lead:', leadData, error);
+                            results.errors++;
+                        }
+                    }
+
+                    // Update state with new leads
+                    set((state) => ({
+                        leads: [...newLeads, ...state.leads],
+                        isLoading: false,
+                    }));
+
+                    return results;
+                } catch (error) {
+                    console.error('Bulk import failed:', error);
                     set({ isLoading: false });
                     throw error;
                 }
