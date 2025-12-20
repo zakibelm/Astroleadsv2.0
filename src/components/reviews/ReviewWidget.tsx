@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import { Star, Gift, X } from 'lucide-react';
 import { Button, Modal, ModalBody, Textarea } from '@/components/ui';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/lib/supabaseClient';
 import { useToast } from '@/components/ui';
 
 interface ReviewWidgetProps {
@@ -133,8 +133,8 @@ export const ReviewWidget: React.FC<ReviewWidgetProps> = ({ isOpen, onClose, tri
                                 <Star
                                     size={40}
                                     className={`${star <= (hoverRating || rating)
-                                            ? 'fill-astro-gold text-astro-gold'
-                                            : 'text-neutral-600'
+                                        ? 'fill-astro-gold text-astro-gold'
+                                        : 'text-neutral-600'
                                         } transition-colors`}
                                 />
                             </button>

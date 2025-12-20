@@ -6,7 +6,7 @@
 import React, { useState } from 'react';
 import { CheckCircle, Zap, Code, Lock, ArrowRight, Globe } from 'lucide-react';
 import { Button, Input, Textarea } from '@/components/ui';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/lib/supabaseClient';
 import { t, type Language } from '@/lib/i18n';
 
 const FoundingMemberPage: React.FC = () => {
@@ -94,8 +94,8 @@ const FoundingMemberPage: React.FC = () => {
                     <button
                         onClick={() => setLang('fr')}
                         className={`px-3 py-1.5 rounded text-sm font-medium transition-all ${lang === 'fr'
-                                ? 'bg-astro-gold text-black'
-                                : 'text-neutral-400 hover:text-white'
+                            ? 'bg-astro-gold text-black'
+                            : 'text-neutral-400 hover:text-white'
                             }`}
                     >
                         🇫🇷 FR
@@ -103,8 +103,8 @@ const FoundingMemberPage: React.FC = () => {
                     <button
                         onClick={() => setLang('en')}
                         className={`px-3 py-1.5 rounded text-sm font-medium transition-all ${lang === 'en'
-                                ? 'bg-astro-gold text-black'
-                                : 'text-neutral-400 hover:text-white'
+                            ? 'bg-astro-gold text-black'
+                            : 'text-neutral-400 hover:text-white'
                             }`}
                     >
                         🇬🇧 EN

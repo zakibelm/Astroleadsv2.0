@@ -1,0 +1,37 @@
+
+> astroleads@1.0.0 build
+> vite build
+
+[36mvite v7.3.0 [32mbuilding client environment for production...[36m[39m
+transforming...
+[32mÔ£ô[39m 2159 modules transformed.
+rendering chunks...
+
+<--- Last few GCs --->
+
+[10780:000001C44826C000]     1360 ms: Mark-Compact 25.0 (52.7) -> 22.8 (56.7) MB, pooled: 0 MB, 17.87 / 0.00 ms  (+ 0.7 ms in 19 steps since start of marking, biggest step 0.2 ms, walltime since start of marking 79 ms) (average mu = 0.986, current mu = 0.[10780:000001C44826C000]     1894 ms: Scavenge (interleaved) 39.8 (57.2) -> 25.8 (57.2) MB, pooled: 0 MB, 9.66 / 0.00 ms  (average mu = 0.986, current mu = 0.986) allocation failure; 
+
+FATAL ERROR: Zone Allocation failed - process out of memory
+----- Native stack trace -----
+
+
+<--- Last few GCs --->
+
+[10780:000001C47C41D000]     1469 ms: Scavenge 19.8 (28.8) -> 14.1 (29.3) MB, pooled: 0 MB, 22.94 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[10780:000001C47C41D000]     2116 ms: Mark-Compact 16.2 (30.5) -> 12.9 (30.8) MB, pooled: 0 MB, 113.12 / 0.00 ms  (average mu = 0.947, current mu = 0.947) background allocation failure; GC in old space requested
+
+FATAL ERROR: Zone Allocation failed - process out of memory
+----- Native stack trace -----
+
+ 1: 00007FF7E185AA39 
+ 2: 00007FF7E249CD07 
+ 3: 00007FF7E1E17CC6 
+ 4: 00007FF7E2E1A500 
+ 5: 00007FF7E2C43AD9 
+ 6: 00007FF7E1D0FC56 
+ 7: 00007FF7E1CED54F 
+ 8: 00007FF7E2419003 
+ 9: 00007FF7E241B0DA 
+10: 00007FF7E1E9E221 
+11: 00007FF7E1E9C31F 
+12: 000001C69E1F733A 

@@ -3,7 +3,7 @@
  * Aggregates and exposes public transparency metrics
  */
 
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/lib/supabaseClient';
 
 export interface PlatformMetrics {
     // Core quality metrics

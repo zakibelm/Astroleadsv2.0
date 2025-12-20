@@ -5,7 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { TrendingUp, Users, Mail, Target, CheckCircle, XCircle } from 'lucide-react';
-import { Card, CardBody } from '@/components/ui';
+import { Card, CardContent } from '@/components/ui';
 import { getPublicMetrics, type PlatformMetrics } from '@/services/metricsService';
 
 const MetricsPage: React.FC = () => {
@@ -104,42 +104,42 @@ const MetricsPage: React.FC = () => {
                 {/* Volume Stats */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
                     <Card className="bg-astro-800/50 border-astro-700">
-                        <CardBody className="text-center p-6">
+                        <CardContent className="text-center p-6">
                             <TrendingUp className="w-12 h-12 mx-auto text-astro-gold mb-3" />
                             <p className="text-4xl font-bold text-white mb-2">
                                 {metrics.totalLeadsGenerated.toLocaleString()}
                             </p>
                             <p className="text-sm text-neutral-400">Leads Generated</p>
                             <p className="text-xs text-neutral-500 mt-1">Last {metrics.periodDays} days</p>
-                        </CardBody>
+                        </CardContent>
                     </Card>
 
                     <Card className="bg-astro-800/50 border-astro-700">
-                        <CardBody className="text-center p-6">
+                        <CardContent className="text-center p-6">
                             <Mail className="w-12 h-12 mx-auto text-blue-400 mb-3" />
                             <p className="text-4xl font-bold text-white mb-2">
                                 {metrics.totalCampaigns}
                             </p>
                             <p className="text-sm text-neutral-400">Active Campaigns</p>
                             <p className="text-xs text-neutral-500 mt-1">Running right now</p>
-                        </CardBody>
+                        </CardContent>
                     </Card>
 
                     <Card className="bg-astro-800/50 border-astro-700">
-                        <CardBody className="text-center p-6">
+                        <CardContent className="text-center p-6">
                             <Users className="w-12 h-12 mx-auto text-green-400 mb-3" />
                             <p className="text-4xl font-bold text-white mb-2">
                                 {metrics.activeUsers}
                             </p>
                             <p className="text-sm text-neutral-400">Active Users</p>
                             <p className="text-xs text-neutral-500 mt-1">Growth teams using AstroLeads</p>
-                        </CardBody>
+                        </CardContent>
                     </Card>
                 </div>
 
                 {/* By Industry */}
                 <Card className="bg-astro-800/50 border-astro-700 mb-12">
-                    <CardBody className="p-6">
+                    <CardContent className="p-6">
                         <h2 className="text-2xl font-bold text-white mb-6">Performance by Industry</h2>
                         <div className="space-y-4">
                             {Object.entries(metrics.byIndustry).map(([industry, data]) => (
@@ -161,12 +161,12 @@ const MetricsPage: React.FC = () => {
                                 </div>
                             ))}
                         </div>
-                    </CardBody>
+                    </CardContent>
                 </Card>
 
                 {/* By Source */}
                 <Card className="bg-astro-800/50 border-astro-700 mb-12">
-                    <CardBody className="p-6">
+                    <CardContent className="p-6">
                         <h2 className="text-2xl font-bold text-white mb-6">Performance by Source</h2>
                         <div className="space-y-4">
                             {Object.entries(metrics.bySource).map(([source, data]) => (
@@ -188,12 +188,12 @@ const MetricsPage: React.FC = () => {
                                 </div>
                             ))}
                         </div>
-                    </CardBody>
+                    </CardContent>
                 </Card>
 
                 {/* Methodology */}
                 <Card className="bg-astro-800/50 border-astro-700">
-                    <CardBody className="p-6">
+                    <CardContent className="p-6">
                         <h2 className="text-2xl font-bold text-white mb-4">How We Calculate These Metrics</h2>
                         <div className="space-y-4 text-neutral-300">
                             <div>
@@ -228,7 +228,7 @@ const MetricsPage: React.FC = () => {
                                 </p>
                             </div>
                         </div>
-                    </CardBody>
+                    </CardContent>
                 </Card>
 
                 {/* CTA */}
@@ -271,7 +271,7 @@ const MetricCard: React.FC<MetricCardProps> = ({ icon, title, value, subtitle, t
 
     return (
         <Card className={`bg-gradient-to-br ${colorClasses[color]} border`}>
-            <CardBody className="p-6">
+            <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
                     <div className="w-12 h-12 rounded-full bg-astro-900/50 flex items-center justify-center">
                         {icon}
@@ -288,7 +288,7 @@ const MetricCard: React.FC<MetricCardProps> = ({ icon, title, value, subtitle, t
                 {comparison && (
                     <p className="text-xs text-neutral-500">{comparison}</p>
                 )}
-            </CardBody>
+            </CardContent>
         </Card>
     );
 };
