@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Play, Pause, Trash2, Eye, Sparkles, Building2, Users, Shuffle } from 'lucide-react';
 import { Button, Card, Badge, Modal, ModalBody, ModalFooter, Input, Textarea, useToast } from '@/components/ui';
+import { CampaignWizard } from '@/components/campaigns/CampaignWizard';
 import { useCampaignStore } from '@/stores';
 import { CampaignStatus } from '@/types';
 import { STATUS_COLORS, PLATFORMS } from '@/lib/constants';
@@ -13,6 +14,7 @@ const Campaigns: React.FC = () => {
     const toast = useToast();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [useWizard, setUseWizard] = useState(true); // Use new wizard by default
     const [isLoading, setIsLoading] = useState(false);
     const [aiStrategy, setAiStrategy] = useState('');
 
@@ -225,8 +227,8 @@ const Campaigns: React.FC = () => {
                                 type="button"
                                 onClick={() => setFormData({ ...formData, campaignType: 'b2b' })}
                                 className={`p-4 rounded-xl border-2 transition-all text-center ${formData.campaignType === 'b2b'
-                                        ? 'border-astro-gold bg-astro-gold/10'
-                                        : 'border-astro-700 bg-astro-800 hover:border-astro-gold/50'
+                                    ? 'border-astro-gold bg-astro-gold/10'
+                                    : 'border-astro-700 bg-astro-800 hover:border-astro-gold/50'
                                     }`}
                             >
                                 <Building2 className={`w-8 h-8 mx-auto mb-2 ${formData.campaignType === 'b2b' ? 'text-astro-gold' : 'text-blue-400'
@@ -239,8 +241,8 @@ const Campaigns: React.FC = () => {
                                 type="button"
                                 onClick={() => setFormData({ ...formData, campaignType: 'b2c' })}
                                 className={`p-4 rounded-xl border-2 transition-all text-center ${formData.campaignType === 'b2c'
-                                        ? 'border-astro-gold bg-astro-gold/10'
-                                        : 'border-astro-700 bg-astro-800 hover:border-astro-gold/50'
+                                    ? 'border-astro-gold bg-astro-gold/10'
+                                    : 'border-astro-700 bg-astro-800 hover:border-astro-gold/50'
                                     }`}
                             >
                                 <Users className={`w-8 h-8 mx-auto mb-2 ${formData.campaignType === 'b2c' ? 'text-astro-gold' : 'text-pink-400'
@@ -253,8 +255,8 @@ const Campaigns: React.FC = () => {
                                 type="button"
                                 onClick={() => setFormData({ ...formData, campaignType: 'hybrid' })}
                                 className={`p-4 rounded-xl border-2 transition-all text-center ${formData.campaignType === 'hybrid'
-                                        ? 'border-astro-gold bg-astro-gold/10'
-                                        : 'border-astro-700 bg-astro-800 hover:border-astro-gold/50'
+                                    ? 'border-astro-gold bg-astro-gold/10'
+                                    : 'border-astro-700 bg-astro-800 hover:border-astro-gold/50'
                                     }`}
                             >
                                 <Shuffle className={`w-8 h-8 mx-auto mb-2 ${formData.campaignType === 'hybrid' ? 'text-astro-gold' : 'text-purple-400'
@@ -284,8 +286,8 @@ const Campaigns: React.FC = () => {
                                                 setFormData({ ...formData, preferredSources: sources });
                                             }}
                                             className={`px-3 py-2 rounded-lg border text-sm transition-all ${formData.preferredSources.includes(source)
-                                                    ? 'bg-astro-gold/20 border-astro-gold text-astro-gold'
-                                                    : 'bg-astro-800 border-astro-700 text-neutral-400 hover:text-white'
+                                                ? 'bg-astro-gold/20 border-astro-gold text-astro-gold'
+                                                : 'bg-astro-800 border-astro-700 text-neutral-400 hover:text-white'
                                                 }`}
                                         >
                                             {source}
@@ -306,8 +308,8 @@ const Campaigns: React.FC = () => {
                                                 setFormData({ ...formData, preferredSources: sources });
                                             }}
                                             className={`px-3 py-2 rounded-lg border text-sm transition-all ${formData.preferredSources.includes(source)
-                                                    ? 'bg-astro-gold/20 border-astro-gold text-astro-gold'
-                                                    : 'bg-astro-800 border-astro-700 text-neutral-400 hover:text-white'
+                                                ? 'bg-astro-gold/20 border-astro-gold text-astro-gold'
+                                                : 'bg-astro-800 border-astro-700 text-neutral-400 hover:text-white'
                                                 }`}
                                         >
                                             {source}
