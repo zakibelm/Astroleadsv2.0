@@ -454,7 +454,7 @@ export const LeadImportModal: React.FC<LeadImportModalProps> = ({
     };
 
     return (
-        <Modal onClose={onClose}>
+        <Modal isOpen={true} onClose={onClose}>
             <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
                     <FileText className="w-6 h-6 text-astro-gold" />
