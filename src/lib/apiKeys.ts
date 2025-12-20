@@ -6,6 +6,9 @@ interface ApiSettings {
     openRouterKey: string;
     supabaseUrl: string;
     supabaseKey: string;
+    hunterApiKey?: string;
+    phantombusterApiKey?: string;
+    newsApiKey?: string;
     testEmail: string;
     testModeEnabled: boolean;
 }
@@ -26,6 +29,9 @@ export const getStoredSettings = (): ApiSettings => {
         openRouterKey: '',
         supabaseUrl: '',
         supabaseKey: '',
+        hunterApiKey: '',
+        phantombusterApiKey: '',
+        newsApiKey: '',
         testEmail: '',
         testModeEnabled: true,
     };
@@ -34,6 +40,9 @@ export const getStoredSettings = (): ApiSettings => {
 export const getOpenRouterKey = (): string => getStoredSettings().openRouterKey;
 export const getSupabaseUrl = (): string => getStoredSettings().supabaseUrl;
 export const getSupabaseKey = (): string => getStoredSettings().supabaseKey;
+export const getHunterApiKey = (): string => getStoredSettings().hunterApiKey || '';
+export const getPhantomBusterApiKey = (): string => getStoredSettings().phantombusterApiKey || '';
+export const getNewsApiKey = (): string => getStoredSettings().newsApiKey || '';
 export const getTestEmail = (): string => getStoredSettings().testEmail;
 export const isTestModeEnabled = (): boolean => getStoredSettings().testModeEnabled;
 

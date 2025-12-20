@@ -3,6 +3,7 @@ export interface ApiSettings {
     supabaseUrl: string;
     supabaseKey: string;
     hunterApiKey: string;
+    phantombusterApiKey: string;
     newsApiKey: string;
     testEmail: string;
     testModeEnabled: boolean;
@@ -25,6 +26,7 @@ export const getStoredSettings = (): ApiSettings => {
         supabaseUrl: '',
         supabaseKey: '',
         hunterApiKey: '',
+        phantombusterApiKey: '',
         newsApiKey: '',
         testEmail: '',
         testModeEnabled: true,

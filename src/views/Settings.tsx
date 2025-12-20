@@ -11,6 +11,7 @@ const Settings: React.FC = () => {
         supabaseUrl: '',
         supabaseKey: '',
         hunterApiKey: '',
+        phantombusterApiKey: '',
         newsApiKey: '',
         testEmail: '',
         testModeEnabled: true,
@@ -55,6 +56,13 @@ const Settings: React.FC = () => {
             placeholder: 'Votre clé API Hunter',
             description: 'Pour la vérification des emails (requis)',
             link: 'https://hunter.io/api_keys',
+        },
+        {
+            id: 'phantombusterApiKey',
+            label: 'PhantomBuster API Key',
+            placeholder: 'Votre clé API PhantomBuster',
+            description: 'Pour le scraping multi-plateforme (LinkedIn, Facebook, Instagram, TikTok...)',
+            link: 'https://phantombuster.com/api',
         },
         {
             id: 'newsApiKey',

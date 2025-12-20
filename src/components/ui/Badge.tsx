@@ -44,7 +44,7 @@ export const Badge: React.FC<BadgeProps> = ({
 
 // Status Badge with dot indicator
 export interface StatusBadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-    status: 'active' | 'inactive' | 'offline' | 'pending';
+    status: 'active' | 'inactive' | 'offline' | 'pending' | 'working' | 'idle' | 'paused';
 }
 
 const statusConfig = {
@@ -52,6 +52,9 @@ const statusConfig = {
     inactive: { color: 'bg-yellow-500', text: 'Inactif', textColor: 'text-yellow-400' },
     offline: { color: 'bg-neutral-500', text: 'Hors-ligne', textColor: 'text-neutral-400' },
     pending: { color: 'bg-blue-500', text: 'En attente', textColor: 'text-blue-400' },
+    working: { color: 'bg-purple-500', text: 'En cours', textColor: 'text-purple-400' },
+    idle: { color: 'bg-cyan-500', text: 'Au repos', textColor: 'text-cyan-400' },
+    paused: { color: 'bg-orange-500', text: 'En pause', textColor: 'text-orange-400' },
 };
 
 export const StatusBadge: React.FC<StatusBadgeProps> = ({
