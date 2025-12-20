@@ -1,14 +1,16 @@
 /**
- * Beta Program Landing Page
- * Early adopter program to collect reviews and validate positioning
+ * Founding Member Program Page (renamed from Beta)
+ * Multi-language: FR (default) + EN
  */
 
 import React, { useState } from 'react';
-import { CheckCircle, Zap, Code, Lock, ArrowRight } from 'lucide-react';
+import { CheckCircle, Zap, Code, Lock, ArrowRight, Globe } from 'lucide-react';
 import { Button, Input, Textarea } from '@/components/ui';
 import { supabase } from '@/lib/supabase';
+import { t, type Language } from '@/lib/i18n';
 
-const BetaPage: React.FC = () => {
+const FoundingMemberPage: React.FC = () => {
+    const [lang, setLang] = useState<Language>('fr');
     const [formData, setFormData] = useState({
         email: '',
         company: '',
@@ -24,15 +26,15 @@ const BetaPage: React.FC = () => {
         setIsLoading(true);
 
         try {
-            // Save to Supabase
             const { error } = await supabase
-                .from('beta_signups')
+                .from('founding_member_signups')
                 .insert({
                     email: formData.email,
                     company: formData.company,
                     role: formData.role,
                     use_case: formData.useCase,
                     tech_stack: formData.techStack,
+                    language: lang,
                     status: 'pending'
                 });
 
@@ -40,7 +42,7 @@ const BetaPage: React.FC = () => {
 
             setIsSubmitted(true);
         } catch (error) {
-            console.error('Error submitting beta signup:', error);
+            console.error('Error submitting signup:', error);
             alert('Erreur lors de la soumission. Veuillez réessayer.');
         } finally {
             setIsLoading(false);
@@ -55,27 +57,27 @@ const BetaPage: React.FC = () => {
                         <CheckCircle className="w-10 h-10 text-green-400" />
                     </div>
                     <h1 className="text-4xl font-bold text-white mb-4">
-                        Application Received! 🎉
+                        {t('foundingMember.success.title', lang)}
                     </h1>
                     <p className="text-xl text-neutral-300 mb-8">
-                        We'll review your application within 24h and send you access credentials.
+                        {t('foundingMember.success.subtitle', lang)}
                     </p>
                     <div className="bg-astro-800/50 border border-astro-700 rounded-xl p-6">
                         <p className="text-neutral-400 mb-4">
-                            Check your inbox for:
+                            {t('foundingMember.success.checkInbox', lang)}
                         </p>
                         <ul className="text-left text-neutral-300 space-y-2">
                             <li className="flex items-center gap-2">
                                 <CheckCircle size={16} className="text-green-400" />
-                                Welcome email with setup guide
+                                {t('foundingMember.success.welcome', lang)}
                             </li>
                             <li className="flex items-center gap-2">
                                 <CheckCircle size={16} className="text-green-400" />
-                                API credentials (3 months free)
+                                {t('foundingMember.success.credentials', lang)}
                             </li>
                             <li className="flex items-center gap-2">
                                 <CheckCircle size={16} className="text-green-400" />
-                                Beta Discord invite
+                                {t('foundingMember.success.discord', lang)}
                             </li>
                         </ul>
                     </div>
@@ -86,39 +88,62 @@ const BetaPage: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-astro-900 via-astro-950 to-black">
+            {/* Language Switcher */}
+            <div className="absolute top-8 right-8 z-50">
+                <div className="bg-astro-800/50 border border-astro-700 rounded-lg p-1 flex gap-1">
+                    <button
+                        onClick={() => setLang('fr')}
+                        className={`px-3 py-1.5 rounded text-sm font-medium transition-all ${lang === 'fr'
+                                ? 'bg-astro-gold text-black'
+                                : 'text-neutral-400 hover:text-white'
+                            }`}
+                    >
+                        🇫🇷 FR
+                    </button>
+                    <button
+                        onClick={() => setLang('en')}
+                        className={`px-3 py-1.5 rounded text-sm font-medium transition-all ${lang === 'en'
+                                ? 'bg-astro-gold text-black'
+                                : 'text-neutral-400 hover:text-white'
+                            }`}
+                    >
+                        🇬🇧 EN
+                    </button>
+                </div>
+            </div>
+
             {/* Hero */}
             <div className="max-w-6xl mx-auto px-8 pt-20 pb-12">
                 <div className="text-center mb-16">
                     <div className="inline-block bg-astro-gold/20 border border-astro-gold/30 rounded-full px-4 py-2 mb-6">
                         <p className="text-astro-gold font-semibold text-sm">
-                            ⚡ Limited Spots - Early Adopter Program
+                            {t('foundingMember.badge', lang)}
                         </p>
                     </div>
 
                     <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
-                        Build Your Lead Gen Stack<br />
+                        {t('foundingMember.hero.title', lang)}<br />
                         <span className="bg-gradient-to-r from-astro-gold to-yellow-400 bg-clip-text text-transparent">
-                            The Composable Way
+                            {t('foundingMember.hero.subtitle', lang)}
                         </span>
                     </h1>
 
                     <p className="text-xl text-neutral-300 mb-8 max-w-3xl mx-auto">
-                        Join 50 technical teams testing the API-first alternative to ZoomInfo.
-                        Get <strong className="text-white">3 months free</strong> + priority support.
+                        {t('foundingMember.hero.description', lang)} <strong className="text-white">{t('foundingMember.hero.free', lang)}</strong> {t('foundingMember.hero.support', lang)}
                     </p>
 
                     <div className="flex gap-4 justify-center items-center flex-wrap">
                         <div className="flex items-center gap-2 text-neutral-400">
                             <CheckCircle size={20} className="text-green-400" />
-                            <span>No credit card</span>
+                            <span>{t('foundingMember.benefits.noCard', lang)}</span>
                         </div>
                         <div className="flex items-center gap-2 text-neutral-400">
                             <CheckCircle size={20} className="text-green-400" />
-                            <span>Full API access</span>
+                            <span>{t('foundingMember.benefits.fullApi', lang)}</span>
                         </div>
                         <div className="flex items-center gap-2 text-neutral-400">
                             <CheckCircle size={20} className="text-green-400" />
-                            <span>Cancel anytime</span>
+                            <span>{t('foundingMember.benefits.cancel', lang)}</span>
                         </div>
                     </div>
                 </div>
@@ -127,62 +152,62 @@ const BetaPage: React.FC = () => {
                 <div className="grid md:grid-cols-3 gap-6 mb-16">
                     <div className="bg-astro-800/50 border border-astro-700 rounded-xl p-6">
                         <Zap className="w-12 h-12 text-astro-gold mb-4" />
-                        <h3 className="text-xl font-bold text-white mb-2">3 Months Free</h3>
+                        <h3 className="text-xl font-bold text-white mb-2">{t('foundingMember.cards.free.title', lang)}</h3>
                         <p className="text-neutral-400">
-                            Full Pro access ($149/mo value). No strings attached.
+                            {t('foundingMember.cards.free.description', lang)}
                         </p>
                     </div>
 
                     <div className="bg-astro-800/50 border border-astro-700 rounded-xl p-6">
                         <Code className="w-12 h-12 text-blue-400 mb-4" />
-                        <h3 className="text-xl font-bold text-white mb-2">n8n/Make Ready</h3>
+                        <h3 className="text-xl font-bold text-white mb-2">{t('foundingMember.cards.ready.title', lang)}</h3>
                         <p className="text-neutral-400">
-                            Pre-built templates to get started in minutes.
+                            {t('foundingMember.cards.ready.description', lang)}
                         </p>
                     </div>
 
                     <div className="bg-astro-800/50 border border-astro-700 rounded-xl p-6">
                         <Lock className="w-12 h-12 text-green-400 mb-4" />
-                        <h3 className="text-xl font-bold text-white mb-2">Priority Support</h3>
+                        <h3 className="text-xl font-bold text-white mb-2">{t('foundingMember.cards.priority.title', lang)}</h3>
                         <p className="text-neutral-400">
-                            Direct access to founders + Beta Discord.
+                            {t('foundingMember.cards.priority.description', lang)}
                         </p>
                     </div>
                 </div>
 
                 {/* Form */}
                 <div className="max-w-2xl mx-auto bg-astro-800/50 border border-astro-700 rounded-2xl p-8">
-                    <h2 className="text-2xl font-bold text-white mb-6">Apply for Beta Access</h2>
+                    <h2 className="text-2xl font-bold text-white mb-6">{t('foundingMember.form.title', lang)}</h2>
 
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <Input
-                            label="Work Email *"
+                            label={t('foundingMember.form.email', lang)}
                             type="email"
-                            placeholder="you@company.com"
+                            placeholder={t('foundingMember.form.emailPlaceholder', lang)}
                             value={formData.email}
                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                             required
                         />
 
                         <Input
-                            label="Company Name *"
-                            placeholder="Acme Inc"
+                            label={t('foundingMember.form.company', lang)}
+                            placeholder={t('foundingMember.form.companyPlaceholder', lang)}
                             value={formData.company}
                             onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                             required
                         />
 
                         <Input
-                            label="Your Role *"
-                            placeholder="e.g., Growth Engineer, Technical Founder, CTO"
+                            label={t('foundingMember.form.role', lang)}
+                            placeholder={t('foundingMember.form.rolePlaceholder', lang)}
                             value={formData.role}
                             onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                             required
                         />
 
                         <Textarea
-                            label="Primary Use Case *"
-                            placeholder="e.g., Lead gen for SaaS sales team, prospecting for agency clients, building custom lead scoring pipeline..."
+                            label={t('foundingMember.form.useCase', lang)}
+                            placeholder={t('foundingMember.form.useCasePlaceholder', lang)}
                             value={formData.useCase}
                             onChange={(e) => setFormData({ ...formData, useCase: e.target.value })}
                             rows={4}
@@ -190,8 +215,8 @@ const BetaPage: React.FC = () => {
                         />
 
                         <Textarea
-                            label="Current Tech Stack (optional)"
-                            placeholder="e.g., n8n, HubSpot, Slack, Python scripts..."
+                            label={t('foundingMember.form.techStack', lang)}
+                            placeholder={t('foundingMember.form.techStackPlaceholder', lang)}
                             value={formData.techStack}
                             onChange={(e) => setFormData({ ...formData, techStack: e.target.value })}
                             rows={2}
@@ -203,23 +228,22 @@ const BetaPage: React.FC = () => {
                             isLoading={isLoading}
                             rightIcon={<ArrowRight size={18} />}
                         >
-                            Apply for Beta Access
+                            {t('foundingMember.form.submit', lang)}
                         </Button>
 
                         <p className="text-xs text-neutral-500 text-center">
-                            By applying, you agree to test the platform and provide feedback.
-                            We'll invite you to leave a review after your first qualified lead.
+                            {t('foundingMember.form.terms', lang)}
                         </p>
                     </form>
                 </div>
 
                 {/* Social Proof */}
                 <div className="mt-16 text-center">
-                    <p className="text-neutral-500 mb-4">Trusted by technical teams at</p>
+                    <p className="text-neutral-500 mb-4">{t('foundingMember.social.trusted', lang)}</p>
                     <div className="flex gap-8 justify-center items-center flex-wrap opacity-50">
-                        <span className="text-white font-semibold">YC Startups</span>
-                        <span className="text-white font-semibold">SaaS Scale-ups</span>
-                        <span className="text-white font-semibold">Growth Agencies</span>
+                        <span className="text-white font-semibold">{t('foundingMember.social.yc', lang)}</span>
+                        <span className="text-white font-semibold">{t('foundingMember.social.saas', lang)}</span>
+                        <span className="text-white font-semibold">{t('foundingMember.social.agencies', lang)}</span>
                     </div>
                 </div>
             </div>
@@ -227,4 +251,4 @@ const BetaPage: React.FC = () => {
     );
 };
 
-export default BetaPage;
+export default FoundingMemberPage;

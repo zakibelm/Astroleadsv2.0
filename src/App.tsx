@@ -20,7 +20,7 @@ const LoginPage = React.lazy(() => import('@/views/LoginPage'));
 const LandingPage = React.lazy(() => import('@/views/LandingPage'));
 const SignupPage = React.lazy(() => import('@/views/SignupPage'));
 const MetricsPage = React.lazy(() => import('@/views/MetricsPage'));
-const BetaPage = React.lazy(() => import('@/views/BetaPage'));
+const FoundingMemberPage = React.lazy(() => import('@/views/FoundingMemberPage'));
 
 // Loading fallback
 const PageLoader = () => (
@@ -47,7 +47,7 @@ const App: React.FC = () => {
                             <Route path="/login" element={<LoginPage />} />
                             <Route path="/signup" element={<SignupPage />} />
                             <Route path="/metrics" element={<MetricsPage />} />
-                            <Route path="/beta" element={<BetaPage />} />
+                            <Route path="/founding-members" element={<FoundingMemberPage />} />
                         </Route>
 
                         {/* Protected Routes with Layout */}
