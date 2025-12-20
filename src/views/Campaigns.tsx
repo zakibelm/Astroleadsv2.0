@@ -267,62 +267,6 @@ const Campaigns: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Preferred Sources */}
-                    <div>
-                        <label className="block text-xs font-bold text-neutral-500 uppercase tracking-widest mb-3">
-                            Sources Préférées de Leads
-                        </label>
-                        <div className="flex flex-wrap gap-2">
-                            {formData.campaignType === 'b2b' || formData.campaignType === 'hybrid' ? (
-                                <>
-                                    {['🔗 LinkedIn', '📍 Google Maps', '📧 Email Pro'].map((source) => (
-                                        <button
-                                            key={source}
-                                            type="button"
-                                            onClick={() => {
-                                                const sources = formData.preferredSources.includes(source)
-                                                    ? formData.preferredSources.filter(s => s !== source)
-                                                    : [...formData.preferredSources, source];
-                                                setFormData({ ...formData, preferredSources: sources });
-                                            }}
-                                            className={`px-3 py-2 rounded-lg border text-sm transition-all ${formData.preferredSources.includes(source)
-                                                ? 'bg-astro-gold/20 border-astro-gold text-astro-gold'
-                                                : 'bg-astro-800 border-astro-700 text-neutral-400 hover:text-white'
-                                                }`}
-                                        >
-                                            {source}
-                                        </button>
-                                    ))}
-                                </>
-                            ) : null}
-                            {formData.campaignType === 'b2c' || formData.campaignType === 'hybrid' ? (
-                                <>
-                                    {['📸 Instagram', '🎵 TikTok', '👥 Facebook', '🐦 X/Twitter'].map((source) => (
-                                        <button
-                                            key={source}
-                                            type="button"
-                                            onClick={() => {
-                                                const sources = formData.preferredSources.includes(source)
-                                                    ? formData.preferredSources.filter(s => s !== source)
-                                                    : [...formData.preferredSources, source];
-                                                setFormData({ ...formData, preferredSources: sources });
-                                            }}
-                                            className={`px-3 py-2 rounded-lg border text-sm transition-all ${formData.preferredSources.includes(source)
-                                                ? 'bg-astro-gold/20 border-astro-gold text-astro-gold'
-                                                : 'bg-astro-800 border-astro-700 text-neutral-400 hover:text-white'
-                                                }`}
-                                        >
-                                            {source}
-                                        </button>
-                                    ))}
-                                </>
-                            ) : null}
-                        </div>
-                        <p className="text-xs text-neutral-500 mt-2">
-                            Ces sources seront privilégiées lors de la recherche de leads
-                        </p>
-                    </div>
-
                     <Input
                         label="Nom de la campagne"
                         placeholder="Ex: Prospection Q4 2024"
