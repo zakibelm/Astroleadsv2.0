@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Play, Pause, Trash2, Eye, Sparkles } from 'lucide-react';
+import { Plus, Play, Pause, Trash2, Eye, Sparkles, Building2, Users, Shuffle } from 'lucide-react';
 import { Button, Card, Badge, Modal, ModalBody, ModalFooter, Input, Textarea, useToast } from '@/components/ui';
 import { useCampaignStore } from '@/stores';
 import { CampaignStatus } from '@/types';
@@ -24,6 +24,8 @@ const Campaigns: React.FC = () => {
         geolocation: '',
         platforms: [] as string[],
         senderName: '',  // For email signature
+        campaignType: 'b2b' as 'b2b' | 'b2c' | 'hybrid',
+        preferredSources: [] as string[],
     });
 
     const handlePlatformToggle = (platform: string) => {
@@ -84,6 +86,8 @@ const Campaigns: React.FC = () => {
             geolocation: '',
             platforms: [],
             senderName: '',
+            campaignType: 'b2b' as 'b2b' | 'b2c' | 'b2c',
+            preferredSources: [],
         });
         setAiStrategy('');
     };
@@ -211,6 +215,112 @@ const Campaigns: React.FC = () => {
                 size="lg"
             >
                 <ModalBody className="space-y-6">
+                    {/* Campaign Type Selection */}
+                    <div>
+                        <label className="block text-xs font-bold text-neutral-500 uppercase tracking-widest mb-3">
+                            Type de Campagne
+                        </label>
+                        <div className="grid grid-cols-3 gap-3">
+                            <button
+                                type="button"
+                                onClick={() => setFormData({ ...formData, campaignType: 'b2b' })}
+                                className={`p-4 rounded-xl border-2 transition-all text-center ${formData.campaignType === 'b2b'
+                                        ? 'border-astro-gold bg-astro-gold/10'
+                                        : 'border-astro-700 bg-astro-800 hover:border-astro-gold/50'
+                                    }`}
+                            >
+                                <Building2 className={`w-8 h-8 mx-auto mb-2 ${formData.campaignType === 'b2b' ? 'text-astro-gold' : 'text-blue-400'
+                                    }`} />
+                                <h4 className="text-sm font-semibold text-white mb-1">B2B</h4>
+                                <p className="text-xs text-neutral-400">Entreprises</p>
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={() => setFormData({ ...formData, campaignType: 'b2c' })}
+                                className={`p-4 rounded-xl border-2 transition-all text-center ${formData.campaignType === 'b2c'
+                                        ? 'border-astro-gold bg-astro-gold/10'
+                                        : 'border-astro-700 bg-astro-800 hover:border-astro-gold/50'
+                                    }`}
+                            >
+                                <Users className={`w-8 h-8 mx-auto mb-2 ${formData.campaignType === 'b2c' ? 'text-astro-gold' : 'text-pink-400'
+                                    }`} />
+                                <h4 className="text-sm font-semibold text-white mb-1">B2C</h4>
+                                <p className="text-xs text-neutral-400">Particuliers</p>
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={() => setFormData({ ...formData, campaignType: 'hybrid' })}
+                                className={`p-4 rounded-xl border-2 transition-all text-center ${formData.campaignType === 'hybrid'
+                                        ? 'border-astro-gold bg-astro-gold/10'
+                                        : 'border-astro-700 bg-astro-800 hover:border-astro-gold/50'
+                                    }`}
+                            >
+                                <Shuffle className={`w-8 h-8 mx-auto mb-2 ${formData.campaignType === 'hybrid' ? 'text-astro-gold' : 'text-purple-400'
+                                    }`} />
+                                <h4 className="text-sm font-semibold text-white mb-1">Hybride</h4>
+                                <p className="text-xs text-neutral-400">Mix B2B+B2C</p>
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Preferred Sources */}
+                    <div>
+                        <label className="block text-xs font-bold text-neutral-500 uppercase tracking-widest mb-3">
+                            Sources Préférées de Leads
+                        </label>
+                        <div className="flex flex-wrap gap-2">
+                            {formData.campaignType === 'b2b' || formData.campaignType === 'hybrid' ? (
+                                <>
+                                    {['🔗 LinkedIn', '📍 Google Maps', '📧 Email Pro'].map((source) => (
+                                        <button
+                                            key={source}
+                                            type="button"
+                                            onClick={() => {
+                                                const sources = formData.preferredSources.includes(source)
+                                                    ? formData.preferredSources.filter(s => s !== source)
+                                                    : [...formData.preferredSources, source];
+                                                setFormData({ ...formData, preferredSources: sources });
+                                            }}
+                                            className={`px-3 py-2 rounded-lg border text-sm transition-all ${formData.preferredSources.includes(source)
+                                                    ? 'bg-astro-gold/20 border-astro-gold text-astro-gold'
+                                                    : 'bg-astro-800 border-astro-700 text-neutral-400 hover:text-white'
+                                                }`}
+                                        >
+                                            {source}
+                                        </button>
+                                    ))}
+                                </>
+                            ) : null}
+                            {formData.campaignType === 'b2c' || formData.campaignType === 'hybrid' ? (
+                                <>
+                                    {['📸 Instagram', '🎵 TikTok', '👥 Facebook', '🐦 X/Twitter'].map((source) => (
+                                        <button
+                                            key={source}
+                                            type="button"
+                                            onClick={() => {
+                                                const sources = formData.preferredSources.includes(source)
+                                                    ? formData.preferredSources.filter(s => s !== source)
+                                                    : [...formData.preferredSources, source];
+                                                setFormData({ ...formData, preferredSources: sources });
+                                            }}
+                                            className={`px-3 py-2 rounded-lg border text-sm transition-all ${formData.preferredSources.includes(source)
+                                                    ? 'bg-astro-gold/20 border-astro-gold text-astro-gold'
+                                                    : 'bg-astro-800 border-astro-700 text-neutral-400 hover:text-white'
+                                                }`}
+                                        >
+                                            {source}
+                                        </button>
+                                    ))}
+                                </>
+                            ) : null}
+                        </div>
+                        <p className="text-xs text-neutral-500 mt-2">
+                            Ces sources seront privilégiées lors de la recherche de leads
+                        </p>
+                    </div>
+
                     <Input
                         label="Nom de la campagne"
                         placeholder="Ex: Prospection Q4 2024"

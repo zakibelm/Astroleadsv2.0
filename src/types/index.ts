@@ -32,6 +32,9 @@ export interface Campaign {
     senderEmail?: string;     // Ex: "jean@monentreprise.com"
     companyName?: string;     // Ex: "Mon Entreprise SAS"
     leadTarget?: number;      // Target number of leads
+    // Campaign type and sources
+    campaignType?: 'b2b' | 'b2c' | 'hybrid';  // Type of campaign
+    preferredSources?: string[];  // Preferred lead sources (LinkedIn, Instagram, etc.)
 }
 
 // Lead Types
