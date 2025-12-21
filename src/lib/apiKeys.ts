@@ -38,8 +38,8 @@ export const getStoredSettings = (): ApiSettings => {
 };
 
 export const getOpenRouterKey = (): string => getStoredSettings().openRouterKey;
-export const getSupabaseUrl = (): string => getStoredSettings().supabaseUrl;
-export const getSupabaseKey = (): string => getStoredSettings().supabaseKey;
+export const getSupabaseUrl = (): string => getStoredSettings().supabaseUrl || import.meta.env.VITE_SUPABASE_URL || '';
+export const getSupabaseKey = (): string => getStoredSettings().supabaseKey || import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 export const getHunterApiKey = (): string => getStoredSettings().hunterApiKey || '';
 export const getPhantomBusterApiKey = (): string => getStoredSettings().phantombusterApiKey || '';
 export const getNewsApiKey = (): string => getStoredSettings().newsApiKey || '';
