@@ -6,9 +6,13 @@ import { useLeadStore } from '@/stores';
 import { LeadStatus } from '@/types';
 
 const Leads: React.FC = () => {
-    const { leads, filters, setFilter, getFilteredLeads, updateStatus } = useLeadStore();
+    const { leads, filters, setFilter, getFilteredLeads, updateStatus, fetchLeads } = useLeadStore();
     const toast = useToast();
     const [selectedLeadForModal, setSelectedLeadForModal] = React.useState<import('@/types').Lead | null>(null);
+
+    React.useEffect(() => {
+        fetchLeads();
+    }, [fetchLeads]);
 
     const filteredLeads = getFilteredLeads();
 
