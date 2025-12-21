@@ -5,7 +5,7 @@
 
 import { generateLeads, generateColdEmail, type GeneratedLead } from './leadGeneratorService';
 import { sendEmail, createEmailTemplate, type SendEmailResult } from './emailService';
-import { leadOperations, emailOperations, type DbLead, type DbSentEmail } from './supabaseService';
+import { leadOperations, emailOperations, type DbLead, type DbSentEmail, supabase } from './supabaseService';
 import { useActivityStore } from '@/stores/activityStore';
 
 export type WorkflowStepType =
@@ -58,6 +58,26 @@ export async function executeWorkflow(
         emailsSent: 0,
         errors: [],
     };
+
+    // DEMO MODE LIMIT CHECK
+    try {
+        const { count } = await supabase.from('campaigns').select('*', { count: 'exact', head: true });
+        // Allow up to 10 campaigns in demo mode
+        if (count !== null && count >= 10) {
+            const errorMsg = "⚠️ Mode Démo : Limite de 10 campagnes atteinte. Veuillez contacter l'administrateur.";
+            console.error(errorMsg);
+            // Notify via callback to show in UI immediately
+            onProgress('tracking', errorMsg);
+            throw new Error(errorMsg);
+        }
+    } catch (err) {
+        // If the error is our own limit, rethrow it to stop execution
+        if (err instanceof Error && err.message.includes('Mode Démo')) {
+            throw err;
+        }
+        // Otherwise ignore DB error (e.g. table doesn't exist yet) and proceed
+        console.warn('⚠️ Could not verify campaign limit:', err);
+    }
 
     const addActivity = useActivityStore.getState().addActivity;
 

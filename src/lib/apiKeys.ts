@@ -37,12 +37,13 @@ export const getStoredSettings = (): ApiSettings => {
     };
 };
 
-export const getOpenRouterKey = (): string => getStoredSettings().openRouterKey;
+
 export const getSupabaseUrl = (): string => getStoredSettings().supabaseUrl || import.meta.env.VITE_SUPABASE_URL || '';
 export const getSupabaseKey = (): string => getStoredSettings().supabaseKey || import.meta.env.VITE_SUPABASE_ANON_KEY || '';
-export const getHunterApiKey = (): string => getStoredSettings().hunterApiKey || '';
-export const getPhantomBusterApiKey = (): string => getStoredSettings().phantombusterApiKey || '';
-export const getNewsApiKey = (): string => getStoredSettings().newsApiKey || '';
+export const getOpenRouterKey = (): string => getStoredSettings().openRouterKey || import.meta.env.VITE_OPENROUTER_API_KEY || '';
+export const getHunterApiKey = (): string => getStoredSettings().hunterApiKey || import.meta.env.VITE_HUNTER_API_KEY || '';
+export const getPhantomBusterApiKey = (): string => getStoredSettings().phantombusterApiKey || import.meta.env.VITE_PHANTOMBUSTER_API_KEY || '';
+export const getNewsApiKey = (): string => getStoredSettings().newsApiKey || import.meta.env.VITE_NEWS_API_KEY || '';
 export const getTestEmail = (): string => getStoredSettings().testEmail;
 export const isTestModeEnabled = (): boolean => getStoredSettings().testModeEnabled;
 
