@@ -96,7 +96,7 @@ const MetricsPage: React.FC = () => {
                         title="Avg Quality Score"
                         value={`${metrics.avgQualityScore}/100`}
                         subtitle="Qualified leads only"
-                        comparison="Min threshold: 85"
+                        comparison="Min threshold: 80"
                         color="gold"
                     />
                 </div>
@@ -224,7 +224,7 @@ const MetricsPage: React.FC = () => {
                                 <h3 className="text-lg font-semibold text-white mb-2">Quality Score</h3>
                                 <p className="text-sm">
                                     AI-powered score (0-100) based on email validity, profile completeness, company data,
-                                    and source reliability. Only leads with 85+ are included in "qualified" metrics.
+                                    and source reliability. Only leads with 80+ are included in "qualified" metrics.
                                 </p>
                             </div>
                         </div>

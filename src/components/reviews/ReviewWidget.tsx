@@ -232,7 +232,7 @@ export const useReviewTrigger = () => {
             const { data: leads } = await supabase
                 .from('leads')
                 .select('id, score')
-                .gte('score', 85)
+                .gte('score', 80)
                 .limit(1);
 
             if (leads && leads.length > 0) {

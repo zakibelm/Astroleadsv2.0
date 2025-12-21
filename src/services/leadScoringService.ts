@@ -269,7 +269,7 @@ function calculateB2CScore(lead: Record<string, any>): QualityScore {
     return {
         score,
         breakdown,
-        qualified: score >= 85,
+        qualified: score >= 80,
         reasons
     };
 }
@@ -315,7 +315,7 @@ export function calculateQualityScore(
 export function filterByQuality(
     leads: Record<string, any>[],
     campaignType: CampaignType,
-    minScore: number = 85
+    minScore: number = 80
 ): {
     qualified: Array<Record<string, any> & { qualityScore: QualityScore; source: LeadSource }>;
     rejected: Array<Record<string, any> & { qualityScore: QualityScore; source: LeadSource }>;

@@ -474,7 +474,7 @@ export const LeadImportModal: React.FC<LeadImportModalProps> = ({
                                 Review & Sélection
                             </h3>
                             <p className="text-sm text-neutral-400">
-                                Seuil de qualité: <span className="text-astro-gold font-bold">85/100</span>
+                                Seuil de qualité: <span className="text-astro-gold font-bold">80/100</span>
                             </p>
                         </div>
 
@@ -484,13 +484,13 @@ export const LeadImportModal: React.FC<LeadImportModalProps> = ({
                                 <p className="text-3xl font-bold text-green-400">
                                     {qualified.length}
                                 </p>
-                                <p className="text-xs text-neutral-500">✅ Qualifiés (≥85)</p>
+                                <p className="text-xs text-neutral-500">✅ Qualifiés (≥80)</p>
                             </Card>
                             <Card className="text-center">
                                 <p className="text-3xl font-bold text-red-400">
                                     {rejected.length}
                                 </p>
-                                <p className="text-xs text-neutral-500">❌ Rejetés (\u003c85)</p>
+                                <p className="text-xs text-neutral-500">❌ Rejetés (<80)</p>
                             </Card>
                             <Card className="text-center">
                                 <p className="text-3xl font-bold text-astro-gold">
@@ -521,8 +521,8 @@ export const LeadImportModal: React.FC<LeadImportModalProps> = ({
                                             key={source}
                                             onClick={() => setSourceFilter(source as LeadSource)}
                                             className={`px-3 py-1 rounded text-xs flex items-center gap-1 ${sourceFilter === source
-                                                    ? `${config.color} text-white`
-                                                    : 'bg-astro-700 text-neutral-300'
+                                                ? `${config.color} text-white`
+                                                : 'bg-astro-700 text-neutral-300'
                                                 }`}
                                         >
                                             <span>{config.icon}</span>
@@ -581,8 +581,8 @@ export const LeadImportModal: React.FC<LeadImportModalProps> = ({
                                                 </td>
                                                 <td className="p-2">
                                                     <span className={`font-bold ${lead.qualityScore.score >= 90 ? 'text-green-400' :
-                                                            lead.qualityScore.score >= 85 ? 'text-yellow-400' :
-                                                                'text-red-400'
+                                                        lead.qualityScore.score >= 80 ? 'text-yellow-400' :
+                                                            'text-red-400'
                                                         }`}>
                                                         {lead.qualityScore.score}/100
                                                     </span>
@@ -744,7 +744,7 @@ export const LeadImportModal: React.FC<LeadImportModalProps> = ({
                             </div>
                             <div className="mt-4 p-3 bg-astro-gold/10 border border-astro-gold/30 rounded-lg">
                                 <p className="text-sm text-astro-gold">
-                                    💰 {rejected.length} leads rejetés (score \u003c 85) - économie de {rejected.length} crédits!
+                                    💰 {rejected.length} leads rejetés (score &#60; 80) - économie de {rejected.length} crédits!
                                 </p>
                             </div>
                         </div>

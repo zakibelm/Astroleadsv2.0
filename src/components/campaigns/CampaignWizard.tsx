@@ -39,7 +39,7 @@ export const CampaignWizard: React.FC<CampaignWizardProps> = ({ onComplete, onCa
         b2cCriteria: {},
         exclusionCriteria: {},
         budget: {},
-        scoringPriorities: { minScore: 85 },
+        scoringPriorities: { minScore: 80 },
     });
 
     const updateFormData = (updates: Partial<Campaign>) => {
@@ -234,8 +234,8 @@ export const CampaignWizard: React.FC<CampaignWizardProps> = ({ onComplete, onCa
                                             });
                                         }}
                                         className={`px-3 py-2 rounded-lg border text-sm transition-all ${formData.b2bCriteria?.companySize?.includes(size.value)
-                                                ? 'bg-astro-gold/20 border-astro-gold text-astro-gold'
-                                                : 'bg-astro-800 border-astro-700 text-neutral-400 hover:text-white'
+                                            ? 'bg-astro-gold/20 border-astro-gold text-astro-gold'
+                                            : 'bg-astro-800 border-astro-700 text-neutral-400 hover:text-white'
                                             }`}
                                     >
                                         {size.icon} {size.label}
@@ -264,8 +264,8 @@ export const CampaignWizard: React.FC<CampaignWizardProps> = ({ onComplete, onCa
                                             });
                                         }}
                                         className={`px-3 py-2 rounded-lg border text-sm transition-all ${formData.b2bCriteria?.sectors?.includes(sector)
-                                                ? 'bg-astro-gold/20 border-astro-gold text-astro-gold'
-                                                : 'bg-astro-800 border-astro-700 text-neutral-400 hover:text-white'
+                                            ? 'bg-astro-gold/20 border-astro-gold text-astro-gold'
+                                            : 'bg-astro-800 border-astro-700 text-neutral-400 hover:text-white'
                                             }`}
                                     >
                                         {sector}
@@ -294,8 +294,8 @@ export const CampaignWizard: React.FC<CampaignWizardProps> = ({ onComplete, onCa
                                             });
                                         }}
                                         className={`px-3 py-2 rounded-lg border text-sm transition-all ${formData.b2bCriteria?.targetPositions?.includes(position.value)
-                                                ? 'bg-astro-gold/20 border-astro-gold text-astro-gold'
-                                                : 'bg-astro-800 border-astro-700 text-neutral-400 hover:text-white'
+                                            ? 'bg-astro-gold/20 border-astro-gold text-astro-gold'
+                                            : 'bg-astro-800 border-astro-700 text-neutral-400 hover:text-white'
                                             }`}
                                     >
                                         {position.label}
@@ -326,8 +326,8 @@ export const CampaignWizard: React.FC<CampaignWizardProps> = ({ onComplete, onCa
                                             });
                                         }}
                                         className={`px-3 py-2 rounded-lg border text-sm transition-all ${formData.b2cCriteria?.minFollowers === range.value
-                                                ? 'bg-astro-gold/20 border-astro-gold text-astro-gold'
-                                                : 'bg-astro-800 border-astro-700 text-neutral-400 hover:text-white'
+                                            ? 'bg-astro-gold/20 border-astro-gold text-astro-gold'
+                                            : 'bg-astro-800 border-astro-700 text-neutral-400 hover:text-white'
                                             }`}
                                     >
                                         {range.label}
@@ -356,8 +356,8 @@ export const CampaignWizard: React.FC<CampaignWizardProps> = ({ onComplete, onCa
                                             });
                                         }}
                                         className={`px-3 py-2 rounded-lg border text-sm transition-all ${formData.b2cCriteria?.categories?.includes(cat.value)
-                                                ? 'bg-astro-gold/20 border-astro-gold text-astro-gold'
-                                                : 'bg-astro-800 border-astro-700 text-neutral-400 hover:text-white'
+                                            ? 'bg-astro-gold/20 border-astro-gold text-astro-gold'
+                                            : 'bg-astro-800 border-astro-700 text-neutral-400 hover:text-white'
                                             }`}
                                     >
                                         {cat.icon} {cat.label}
@@ -535,8 +535,8 @@ export const CampaignWizard: React.FC<CampaignWizardProps> = ({ onComplete, onCa
                                 budget: { ...formData.budget, urgency: option.value }
                             })}
                             className={`p-4 rounded-lg border-2 text-center transition-all ${formData.budget?.urgency === option.value
-                                    ? 'border-astro-gold bg-astro-gold/10'
-                                    : 'border-astro-700 bg-astro-800 hover:border-astro-gold/50'
+                                ? 'border-astro-gold bg-astro-gold/10'
+                                : 'border-astro-700 bg-astro-800 hover:border-astro-gold/50'
                                 }`}
                         >
                             <p className="text-sm font-semibold text-white mb-1">
@@ -581,8 +581,8 @@ export const CampaignWizard: React.FC<CampaignWizardProps> = ({ onComplete, onCa
                                     scoringPriorities: { ...formData.scoringPriorities, topPriority: priority.value }
                                 })}
                                 className={`w-full p-4 rounded-lg border-2 text-left transition-all ${formData.scoringPriorities?.topPriority === priority.value
-                                        ? 'border-astro-gold bg-astro-gold/10'
-                                        : 'border-astro-700 bg-astro-800 hover:border-astro-gold/50'
+                                    ? 'border-astro-gold bg-astro-gold/10'
+                                    : 'border-astro-700 bg-astro-800 hover:border-astro-gold/50'
                                     }`}
                             >
                                 <p className="text-sm font-semibold text-white mb-1">
@@ -609,8 +609,8 @@ export const CampaignWizard: React.FC<CampaignWizardProps> = ({ onComplete, onCa
                                     scoringPriorities: { ...formData.scoringPriorities, minScore: scoreOption.value }
                                 })}
                                 className={`w-full p-4 rounded-lg border-2 text-left transition-all ${formData.scoringPriorities?.minScore === scoreOption.value
-                                        ? 'border-astro-gold bg-astro-gold/10'
-                                        : 'border-astro-700 bg-astro-800 hover:border-astro-gold/50'
+                                    ? 'border-astro-gold bg-astro-gold/10'
+                                    : 'border-astro-700 bg-astro-800 hover:border-astro-gold/50'
                                     }`}
                             >
                                 <p className="text-sm font-semibold text-white mb-1">
@@ -643,7 +643,7 @@ export const CampaignWizard: React.FC<CampaignWizardProps> = ({ onComplete, onCa
         // Simple estimation logic
         const estimatedLeads = formData.budget?.targetLeadCount || 100;
         const qualificationRate = formData.scoringPriorities?.minScore === 90 ? 0.1 :
-            formData.scoringPriorities?.minScore === 85 ? 0.2 :
+            formData.scoringPriorities?.minScore === 80 ? 0.2 :
                 formData.scoringPriorities?.minScore === 80 ? 0.35 : 0.5;
         const qualifiedLeads = Math.round(estimatedLeads * qualificationRate);
         const estimatedCost = qualifiedLeads;
