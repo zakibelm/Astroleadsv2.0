@@ -28,6 +28,9 @@ interface UIState {
     setTheme: (theme: 'dark' | 'light') => void;
 }
 
+// Track timeout IDs to prevent memory leaks
+const toastTimeouts = new Map<string, ReturnType<typeof setTimeout>>();
+
 const createToast = (type: ToastType, title: string, message?: string): Toast => ({
     id: `toast-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
     type,
@@ -63,18 +66,32 @@ export const useUIStore = create<UIState>((set, get) => ({
 
         // Auto-remove after duration
         const duration = toast.duration || 3000;
-        setTimeout(() => {
+        const timeoutId = setTimeout(() => {
             get().removeToast(toast.id);
         }, duration);
+
+        // Track timeout to enable cleanup
+        toastTimeouts.set(toast.id, timeoutId);
     },
 
     removeToast: (id) => {
+        // Clear the timeout if it exists
+        const timeoutId = toastTimeouts.get(id);
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+            toastTimeouts.delete(id);
+        }
+
         set((state) => ({
             toasts: state.toasts.filter((t) => t.id !== id),
         }));
     },
 
     clearToasts: () => {
+        // Clear all pending timeouts
+        toastTimeouts.forEach((timeoutId) => clearTimeout(timeoutId));
+        toastTimeouts.clear();
+
         set({ toasts: [] });
     },
 
@@ -82,25 +99,29 @@ export const useUIStore = create<UIState>((set, get) => ({
     showSuccess: (title, message) => {
         const toast = createToast('success', title, message);
         set((state) => ({ toasts: [...state.toasts, toast] }));
-        setTimeout(() => get().removeToast(toast.id), toast.duration);
+        const timeoutId = setTimeout(() => get().removeToast(toast.id), toast.duration);
+        toastTimeouts.set(toast.id, timeoutId);
     },
 
     showError: (title, message) => {
         const toast = createToast('error', title, message);
         set((state) => ({ toasts: [...state.toasts, toast] }));
-        setTimeout(() => get().removeToast(toast.id), toast.duration);
+        const timeoutId = setTimeout(() => get().removeToast(toast.id), toast.duration);
+        toastTimeouts.set(toast.id, timeoutId);
     },
 
     showWarning: (title, message) => {
         const toast = createToast('warning', title, message);
         set((state) => ({ toasts: [...state.toasts, toast] }));
-        setTimeout(() => get().removeToast(toast.id), toast.duration);
+        const timeoutId = setTimeout(() => get().removeToast(toast.id), toast.duration);
+        toastTimeouts.set(toast.id, timeoutId);
     },
 
     showInfo: (title, message) => {
         const toast = createToast('info', title, message);
         set((state) => ({ toasts: [...state.toasts, toast] }));
-        setTimeout(() => get().removeToast(toast.id), toast.duration);
+        const timeoutId = setTimeout(() => get().removeToast(toast.id), toast.duration);
+        toastTimeouts.set(toast.id, timeoutId);
     },
 
     // Global loading
