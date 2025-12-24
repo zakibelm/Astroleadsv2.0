@@ -1,0 +1,206 @@
+{
+  "name": "Génération de Contenu en Batch avec Failover",
+  "nodes": [
+    {
+      "parameters": {
+        "mode": "schedule",
+        "cronExpression": "0 9 * * *",
+        "triggerTimes": {
+          "item": []
+        }
+      },
+      "name": "Schedule - Daily 9AM",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://astrogrowth-backend:3000/api/trpc/leads.listByCampaign",
+        "method": "POST",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "campaignId",
+              "value": "={{$env.CAMPAIGN_ID}}"
+            }
+          ]
+        }
+      },
+      "name": "Get Pending Leads",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "batchSize": 5,
+        "options": {}
+      },
+      "name": "Split Into Batches",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 2,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://astrogrowth-backend:3000/api/trpc/llm.complete",
+        "method": "POST",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "taskType",
+              "value": "content_generation"
+            },
+            {
+              "name": "messages",
+              "value": "={{[\n  {\n    role: 'system',\n    content: 'Tu es un expert en marketing de contenu pour PME québécoises. Génère des posts LinkedIn engageants et personnalisés.'\n  },\n  {\n    role: 'user',\n    content: `Génère un post LinkedIn pour promouvoir ce lead:\\n\\nNom: ${$json.businessName}\\nType: ${$json.businessType}\\nVille: ${$json.city}\\nRating: ${$json.googleRating}/5 (${$json.googleReviews} avis)\\n\\nFormat JSON: { title, body, hashtags (array of 3-5), image_prompt }`\n  }\n]}}"
+            },
+            {
+              "name": "options",
+              "value": "={{ { temperature: 0.8, maxTokens: 1500 } }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "name": "Generate Content with LLM",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "const llmResponse = $input.all()[0].json.result.data;\nconst lead = $node['Split Into Batches'].json;\n\n// Parse generated content\nconst content = JSON.parse(llmResponse.content);\n\n// Calculate quality score based on length, hashtags, etc.\nconst wordCount = content.body.split(' ').length;\nlet qualityScore = 50;\n\nif (wordCount >= 150 && wordCount <= 200) qualityScore += 20;\nif (content.hashtags.length >= 3) qualityScore += 15;\nif (content.body.match(/contactez|visitez|découvrez/i)) qualityScore += 15;\n\nreturn {\n  json: {\n    lead_id: lead.id,\n    campaign_id: lead.campaignId,\n    content: content,\n    quality_score: Math.min(100, qualityScore),\n    llm_metadata: {\n      provider: llmResponse.provider,\n      model: llmResponse.model,\n      latency_ms: llmResponse.metadata.latencyMs,\n      cached: llmResponse.metadata.cached,\n      cost_estimate_cad: llmResponse.provider === 'openrouter' && llmResponse.model.includes('claude') ? 0.02 : 0.00\n    },\n    generated_at: new Date().toISOString()\n  }\n};"
+      },
+      "name": "Process Content",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{$json.quality_score}}",
+              "operation": "largerEqual",
+              "value2": 70
+            }
+          ]
+        }
+      },
+      "name": "Quality >= 70?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1250, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Auto-approve high quality content\nconsole.log(`✅ Auto-approved content for lead ${$json.lead_id} (score: ${$json.quality_score})`);\nconsole.log(`Provider: ${$json.llm_metadata.provider}/${$json.llm_metadata.model}`);\nconsole.log(`Latency: ${$json.llm_metadata.latency_ms}ms`);\nconsole.log(`Cached: ${$json.llm_metadata.cached}`);\n\nreturn [{\n  json: {\n    ...$json,\n    status: 'approved',\n    auto_approved: true\n  }\n}];"
+      },
+      "name": "Auto-Approve",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1450, 200]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Mark for manual review\nconsole.log(`⚠️  Manual review needed for lead ${$json.lead_id} (score: ${$json.quality_score})`);\n\nreturn [{\n  json: {\n    ...$json,\n    status: 'pending',\n    auto_approved: false\n  }\n}];"
+      },
+      "name": "Manual Review",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1450, 400]
+    },
+    {
+      "parameters": {
+        "url": "http://astrogrowth-backend:3000/api/trpc/contents.create",
+        "method": "POST",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "leadId",
+              "value": "={{$json.lead_id}}"
+            },
+            {
+              "name": "campaignId",
+              "value": "={{$json.campaign_id}}"
+            },
+            {
+              "name": "textContent",
+              "value": "={{$json.content.body}}"
+            },
+            {
+              "name": "hashtags",
+              "value": "={{JSON.stringify($json.content.hashtags)}}"
+            },
+            {
+              "name": "qualityScore",
+              "value": "={{$json.quality_score}}"
+            },
+            {
+              "name": "status",
+              "value": "={{$json.status}}"
+            }
+          ]
+        }
+      },
+      "name": "Save Content",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1650, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Aggregate results\nconst items = $input.all();\n\nconst summary = {\n  total_generated: items.length,\n  auto_approved: items.filter(i => i.json.auto_approved).length,\n  manual_review: items.filter(i => !i.json.auto_approved).length,\n  avg_quality_score: items.reduce((sum, i) => sum + i.json.quality_score, 0) / items.length,\n  providers_used: [...new Set(items.map(i => i.json.llm_metadata.provider))],\n  total_cost_cad: items.reduce((sum, i) => sum + (i.json.llm_metadata.cost_estimate_cad || 0), 0),\n  cache_hits: items.filter(i => i.json.llm_metadata.cached).length\n};\n\nconsole.log('📊 Batch Generation Summary:', summary);\n\nreturn [{ json: summary }];"
+      },
+      "name": "Aggregate Results",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1850, 300]
+    }
+  ],
+  "connections": {
+    "Schedule - Daily 9AM": {
+      "main": [[{ "node": "Get Pending Leads", "type": "main", "index": 0 }]]
+    },
+    "Get Pending Leads": {
+      "main": [[{ "node": "Split Into Batches", "type": "main", "index": 0 }]]
+    },
+    "Split Into Batches": {
+      "main": [[{ "node": "Generate Content with LLM", "type": "main", "index": 0 }]]
+    },
+    "Generate Content with LLM": {
+      "main": [[{ "node": "Process Content", "type": "main", "index": 0 }]]
+    },
+    "Process Content": {
+      "main": [[{ "node": "Quality >= 70?", "type": "main", "index": 0 }]]
+    },
+    "Quality >= 70?": {
+      "main": [
+        [{ "node": "Auto-Approve", "type": "main", "index": 0 }],
+        [{ "node": "Manual Review", "type": "main", "index": 0 }]
+      ]
+    },
+    "Auto-Approve": {
+      "main": [[{ "node": "Save Content", "type": "main", "index": 0 }]]
+    },
+    "Manual Review": {
+      "main": [[{ "node": "Save Content", "type": "main", "index": 0 }]]
+    },
+    "Save Content": {
+      "main": [[{ "node": "Aggregate Results", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": ["llm", "content-generation", "batch"]
+}
