@@ -1,0 +1,147 @@
+{
+  "name": "Lead Qualification avec LLM Multi-Provider",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "qualify-lead",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Webhook - New Lead",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Extract lead data from webhook\nconst lead = $input.all()[0].json;\n\nreturn {\n  json: {\n    lead_data: lead,\n    timestamp: new Date().toISOString()\n  }\n};"
+      },
+      "name": "Prepare Lead Data",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://astrogrowth-backend:3000/api/trpc/llm.complete",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "taskType",
+              "value": "qualification"
+            },
+            {
+              "name": "messages",
+              "value": "={{[\n  {\n    role: 'system',\n    content: 'Tu es un expert en qualification de leads B2B pour PME québécoises.'\n  },\n  {\n    role: 'user',\n    content: `Analyse ce lead et retourne un JSON avec: score (0-100), priority (high/medium/low), pain_points (array), recommended_approach (string), next_action (string).\\n\\nLead: ${JSON.stringify($json.lead_data)}`\n  }\n]}}"
+            },
+            {
+              "name": "options",
+              "value": "={{ { temperature: 0.3, maxTokens: 800 } }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Call LLM Router API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "const response = $input.all()[0].json.result.data;\n\n// Parse LLM response\nconst qualification = JSON.parse(response.content);\n\n// Add metadata\nreturn {\n  json: {\n    lead_id: $('Prepare Lead Data').item.json.lead_data.id,\n    qualification: qualification,\n    llm_metadata: {\n      provider: response.provider,\n      model: response.model,\n      latency_ms: response.metadata.latencyMs,\n      cached: response.metadata.cached,\n      fallback_attempts: response.metadata.fallbackAttempts\n    },\n    qualified_at: new Date().toISOString()\n  }\n};"
+      },
+      "name": "Parse LLM Response",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.qualification.priority}}",
+              "operation": "equals",
+              "value2": "high"
+            }
+          ]
+        }
+      },
+      "name": "Is High Priority?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Log success metrics\nconsole.log(`✅ Lead qualified as HIGH PRIORITY`);\nconsole.log(`Provider: ${$json.llm_metadata.provider}`);\nconsole.log(`Model: ${$json.llm_metadata.model}`);\nconsole.log(`Latency: ${$json.llm_metadata.latency_ms}ms`);\nconsole.log(`Cached: ${$json.llm_metadata.cached}`);\nconsole.log(`Fallback attempts: ${$json.llm_metadata.fallback_attempts}`);\n\nreturn $input.all();"
+      },
+      "name": "Log High Priority",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1250, 200]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Log medium/low priority\nconsole.log(`⚡ Lead qualified as ${$json.qualification.priority.toUpperCase()}`);\nconsole.log(`Provider: ${$json.llm_metadata.provider}`);\n\nreturn $input.all();"
+      },
+      "name": "Log Normal Priority",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1250, 400]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}"
+      },
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1450, 300]
+    }
+  ],
+  "connections": {
+    "Webhook - New Lead": {
+      "main": [[{ "node": "Prepare Lead Data", "type": "main", "index": 0 }]]
+    },
+    "Prepare Lead Data": {
+      "main": [[{ "node": "Call LLM Router API", "type": "main", "index": 0 }]]
+    },
+    "Call LLM Router API": {
+      "main": [[{ "node": "Parse LLM Response", "type": "main", "index": 0 }]]
+    },
+    "Parse LLM Response": {
+      "main": [[{ "node": "Is High Priority?", "type": "main", "index": 0 }]]
+    },
+    "Is High Priority?": {
+      "main": [
+        [{ "node": "Log High Priority", "type": "main", "index": 0 }],
+        [{ "node": "Log Normal Priority", "type": "main", "index": 0 }]
+      ]
+    },
+    "Log High Priority": {
+      "main": [[{ "node": "Respond to Webhook", "type": "main", "index": 0 }]]
+    },
+    "Log Normal Priority": {
+      "main": [[{ "node": "Respond to Webhook", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "tags": ["llm", "qualification", "leads"]
+}
