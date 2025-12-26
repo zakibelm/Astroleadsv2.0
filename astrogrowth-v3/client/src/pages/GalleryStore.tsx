@@ -69,6 +69,63 @@ interface WorkflowTemplate {
 
 // Featured workflow templates
 const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
+  // 🌟 PREMIUM TEMPLATES - ASTROLEADS & ASTROMEDIA
+  {
+    id: "astroleads-complete",
+    name: "🚀 AstroLeads - Machine Complète de Génération de Leads",
+    description:
+      "Solution ultra-complète de génération de leads multi-canal. Prospection LinkedIn, Google Maps, enrichissement de données, scraping web, cold email automatisé, suivi intelligent, scoring prédictif, et CRM integration. Le workflow le plus puissant pour exploser vos leads B2B.",
+    category: "lead-gen",
+    industry: ["B2B", "SaaS", "Consulting", "Agency", "Sales"],
+    agents: [
+      "linkedin-hunter",
+      "google-maps-scraper",
+      "data-enrichment-specialist",
+      "email-finder",
+      "cold-email-writer",
+      "follow-up-automation",
+      "lead-scoring-ai",
+      "crm-integrator",
+    ],
+    estimatedTime: "4-6 heures",
+    estimatedCost: 1.25,
+    rating: 5.0,
+    downloads: 3847,
+    featured: true,
+    preview: {
+      icon: <Users className="w-6 h-6" />,
+      color: "from-indigo-600 via-purple-600 to-pink-600",
+    },
+  },
+  {
+    id: "astromedia-complete",
+    name: "🎬 AstroMedia - Studio de Création Média Complet",
+    description:
+      "Plateforme complète de création de contenu média multi-format. Génération de vidéos IA (Google Veo 3, Luma Wan 2), images DALL-E 3, posts sociaux optimisés, scripts vidéo, montage automatisé, sous-titres, thumbnails, calendrier éditorial, et publication cross-platform. Votre studio média IA.",
+    category: "content",
+    industry: ["Media", "Marketing", "E-commerce", "Creator", "Agency"],
+    agents: [
+      "video-script-writer",
+      "ai-video-generator",
+      "image-designer",
+      "video-editor",
+      "subtitle-generator",
+      "thumbnail-creator",
+      "social-media-publisher",
+      "content-calendar-planner",
+    ],
+    estimatedTime: "5-8 heures",
+    estimatedCost: 2.15,
+    rating: 5.0,
+    downloads: 2934,
+    featured: true,
+    preview: {
+      icon: <Zap className="w-6 h-6" />,
+      color: "from-pink-600 via-rose-600 to-orange-600",
+    },
+  },
+
+  // STANDARD TEMPLATES
   {
     id: "linkedin-prospection",
     name: "Machine à Leads LinkedIn B2B",

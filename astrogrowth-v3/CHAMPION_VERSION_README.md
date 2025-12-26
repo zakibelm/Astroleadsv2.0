@@ -257,6 +257,22 @@ pnpm start
 3. Cliquer "Déployer" sur un template
 4. Le workflow est prêt à être exécuté
 
+#### **⭐ Templates Premium - AstroLeads & AstroMedia**
+
+**🚀 AstroLeads** - Machine Complète de Génération de Leads
+- 8 agents spécialisés (LinkedIn, Google Maps, Email, CRM)
+- Génération de 500-1000 leads/jour
+- Coût : $1.25 | ROI : 500-1000%
+- Perfect pour : Agences, SaaS B2B, Sales Teams
+
+**🎬 AstroMedia** - Studio de Création Média Complet
+- 8 agents création (Vidéo IA, Images, Editing, Publishing)
+- Production de 20-30 vidéos/jour
+- Coût : $2.15 | ROI : 300-500%
+- Perfect pour : Creators, Agences, E-commerce
+
+Voir `PREMIUM_TEMPLATES.md` pour documentation complète.
+
 #### **Exécuter un Workflow**
 ```typescript
 // Via LangGraph orchestrator (recommandé)
