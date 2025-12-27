@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useLocation } from "wouter";
 import { Home, BarChart3, FileText, Settings, Users } from "lucide-react";
 
@@ -7,31 +8,32 @@ import { Home, BarChart3, FileText, Settings, Users } from "lucide-react";
  */
 export default function BottomNav() {
   const [location, setLocation] = useLocation();
+  const { t } = useTranslation();
 
   const navItems = [
     {
       icon: Home,
-      label: "Accueil",
+      label: t('nav.home'),
       path: "/dashboard",
     },
     {
       icon: BarChart3,
-      label: "Campagnes",
+      label: t('nav.campaigns'),
       path: "/campaigns",
     },
     {
       icon: Users,
-      label: "Agents",
+      label: t('nav.agents'),
       path: "/agents",
     },
     {
       icon: FileText,
-      label: "Contenus",
+      label: t('nav.content'),
       path: "/contents",
     },
     {
       icon: Settings,
-      label: "Paramètres",
+      label: t('nav.settings'),
       path: "/settings",
     },
   ];
@@ -54,11 +56,10 @@ export default function BottomNav() {
             <button
               key={item.path}
               onClick={() => setLocation(item.path)}
-              className={`flex flex-col items-center justify-center flex-1 h-full transition-colors ${
-                active
+              className={`flex flex-col items-center justify-center flex-1 h-full transition-colors ${active
                   ? "text-primary"
                   : "text-muted-foreground hover:text-foreground"
-              }`}
+                }`}
             >
               <Icon className={`h-6 w-6 ${active ? "stroke-[2.5]" : ""}`} />
               <span className={`text-xs mt-1 ${active ? "font-semibold" : ""}`}>

@@ -31,7 +31,7 @@ function Router() {
   return (
     <Switch>
       <Route path={"/"}>
-        <AppLayout><Dashboard /></AppLayout>
+        <Home />
       </Route>
       <Route path={"/dashboard"}>
         <AppLayout><Dashboard /></AppLayout>
